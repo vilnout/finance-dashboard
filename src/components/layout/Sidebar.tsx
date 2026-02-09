@@ -28,7 +28,7 @@ function SideBar() {
           return (
             <button
               key={Item.label}
-              className={`mx-5 my-1 flex items-center gap-2 rounded-md px-8 py-3 ${
+              className={`mx-5 my-1 flex items-center gap-2 rounded-md px-8 py-3 transition-colors ${
                 Item.active
                   ? "bg-blue-500 font-extrabold"
                   : "font-semibold text-slate-400 hover:bg-slate-900 hover:text-white"
