@@ -19,4 +19,5 @@ export interface MonthlyStats {
   totalBalance: number;
   monthlyIncome: number;
   monthlyExpenses: number;
+  savingsRate: number;
 }

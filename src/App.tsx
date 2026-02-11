@@ -1,7 +1,17 @@
 import MainLayout from "./components/layout/MainLayout";
+import { useFinanceStore } from "./store/useFinanceStore";
+import { StatCard } from "./components/dashboard/StatCard";
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  PercentCircle,
+  Wallet,
+} from "lucide-react";
 
 function App() {
-  const quickBoxesCss = "border-2 p-7 rounded-lg";
+  const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
+  const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
+    monthlyStats();
   return (
     <>
       <MainLayout>
@@ -11,10 +21,31 @@ function App() {
         </div>
         <div>
           <div className="my-4 grid grid-cols-2 gap-2 md:grid-cols-4">
-            <div className={quickBoxesCss}>Total Balance</div>
-            <div className={quickBoxesCss}>Income (Nov)</div>
-            <div className={quickBoxesCss}>Expenses (Nov)</div>
-            <div className={quickBoxesCss}>Savings Rate</div>
+            <StatCard
+              title="Total Balance"
+              value={totalBalance}
+              icon={Wallet}
+              color="text-blue-500"
+            />
+            <StatCard
+              title="Income"
+              value={monthlyIncome}
+              icon={ArrowUpCircle}
+              color="text-emerald-500"
+            />
+            <StatCard
+              title="Expenses"
+              value={monthlyExpenses}
+              icon={ArrowDownCircle}
+              color="text-rose-500"
+            />
+            <StatCard
+              title="Savings Rate"
+              value={savingsRate}
+              icon={PercentCircle}
+              color="text-yellow-500"
+              format="percentage"
+            />
           </div>
           <div className="my-4 min-h-50 gap-3.5 rounded-lg border-2">
             Main Chart Area
