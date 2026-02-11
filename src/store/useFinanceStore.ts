@@ -57,6 +57,9 @@ export const useFinanceStore = create<FinanceStore>((set, get) => ({
       }
     });
 
-    return { totalBalance, monthlyIncome, monthlyExpenses };
+    const monthlySavings = monthlyIncome - monthlyExpenses;
+    const savingsRate = Math.round((monthlySavings / monthlyIncome) * 100);
+
+    return { totalBalance, monthlyIncome, monthlyExpenses, savingsRate };
   },
 }));
