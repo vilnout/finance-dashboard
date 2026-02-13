@@ -8,6 +8,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { TrendChart } from "./components/dashboard/TrendChart";
+import { RecentTransactions } from "./components/dashboard/RecentTransactions";
 
 function App() {
   const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
@@ -51,7 +52,7 @@ function App() {
           <TrendChart />
           <div className="grid-col1 grid gap-2 md:grid-cols-2">
             <div className="min-h-20 rounded-lg border-2">
-              <span>Recent Activity</span>
+              <RecentTransactions />
             </div>
             <div className="min-h-20 rounded-lg border-2">
               <span>Spending by Category</span>
