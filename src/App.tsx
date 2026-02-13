@@ -7,6 +7,7 @@ import {
   PercentCircle,
   Wallet,
 } from "lucide-react";
+import { TrendChart } from "./components/dashboard/TrendChart";
 
 function App() {
   const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
@@ -47,9 +48,7 @@ function App() {
               format="percentage"
             />
           </div>
-          <div className="my-4 min-h-50 gap-3.5 rounded-lg border-2">
-            Main Chart Area
-          </div>
+          <TrendChart />
           <div className="grid-col1 grid gap-2 md:grid-cols-2">
             <div className="min-h-20 rounded-lg border-2">
               <span>Recent Activity</span>
