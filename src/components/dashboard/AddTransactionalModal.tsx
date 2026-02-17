@@ -86,7 +86,7 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
             <label className="cursor-pointer">
               <input
                 type="radio"
-                value="expense"
+                value="income"
                 className="peer sr-only"
                 {...register("type")}
               />
