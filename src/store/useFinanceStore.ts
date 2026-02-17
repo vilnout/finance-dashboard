@@ -30,6 +30,13 @@ const MOCK_TRANSACTIONS: Transaction[] = [
     description: "Grocery Run",
     category: "Food",
   },
+  {
+    id: "4",
+    date: new Date(2026, 1, 26),
+    amount: -200,
+    description: "Food",
+    category: "Food",
+  },
 ];
 
 export const useFinanceStore = create<FinanceStore>((set, get) => ({
