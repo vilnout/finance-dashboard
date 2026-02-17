@@ -9,17 +9,25 @@ import {
 } from "lucide-react";
 import { TrendChart } from "./components/dashboard/TrendChart";
 import { RecentTransactions } from "./components/dashboard/RecentTransactions";
+import { useState } from "react";
 import { CategoryChart } from "./components/dashboard/CategoryChart";
+import { AddTransactionModal } from "./components/dashboard/AddTransactionalModal";
 
 function App() {
   const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
   const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
     monthlyStats();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
       <MainLayout>
         <div className="space-y-6">
-          <h2 className="text-red-500">Dashboard</h2>
+          <div className="flex justify-between">
+            <h2 className="text-red-500">Dashboard</h2>
+            <button onClick={() => setIsModalOpen(true)}>
+              Add Transaction
+            </button>
+          </div>
           <p>Overview of your Financial Health</p>
         </div>
         <div>
@@ -61,6 +69,10 @@ function App() {
           </div>
         </div>
       </MainLayout>
+      <AddTransactionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 }
