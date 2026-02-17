@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { TrendChart } from "./components/dashboard/TrendChart";
 import { RecentTransactions } from "./components/dashboard/RecentTransactions";
+import { CategoryChart } from "./components/dashboard/CategoryChart";
 
 function App() {
   const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
@@ -55,7 +56,7 @@ function App() {
               <RecentTransactions />
             </div>
             <div className="min-h-20 rounded-lg border-2">
-              <span>Spending by Category</span>
+              <CategoryChart />
             </div>
           </div>
         </div>
