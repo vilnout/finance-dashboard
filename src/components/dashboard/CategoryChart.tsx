@@ -42,8 +42,10 @@ export const CategoryChart = () => {
     .sort((a, b) => b.value - a.value);
 
   return (
-    <div>
-      <h3>Spending by Category</h3>
+    <div className="h-full rounded-xl border border-slate-800 bg-slate-900 p-6">
+      <h3 className="mb-4 text-lg font-semibold text-slate-100">
+        Spending by Category
+      </h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
