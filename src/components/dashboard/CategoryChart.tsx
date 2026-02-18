@@ -7,15 +7,8 @@ import {
   Tooltip,
 } from "recharts";
 import { useFinanceStore } from "../../store/useFinanceStore";
-
-const COLORS = [
-  "#0ea5e9",
-  "#22c55e",
-  "#eab308",
-  "#f97316",
-  "#ef4444",
-  "#a855f7",
-];
+import { categoryConfig } from "../transaction/categoryConfig";
+import type { Category } from "../../types";
 
 export const CategoryChart = () => {
   const transactions = useFinanceStore((state) => state.transactions);
@@ -31,14 +24,11 @@ export const CategoryChart = () => {
       acc[category] += amount;
       return acc;
     },
-    {} as Record<string, number>,
+    {} as Record<Category, number>,
   );
 
-  const data = Object.keys(categoryTotals)
-    .map((category) => ({
-      name: category,
-      value: categoryTotals[category],
-    }))
+  const data = (Object.entries(categoryTotals) as [Category, number][])
+    .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value);
 
   return (
@@ -61,7 +51,7 @@ export const CategoryChart = () => {
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
+                  fill={categoryConfig[entry.name].color}
                   stroke="none"
                 />
               ))}
