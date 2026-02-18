@@ -12,13 +12,15 @@ import {
 
 export const TrendChart = memo(() => {
   const transactions = useFinanceStore((state) => state.transactions);
-  const data = transactions.map((tnx) => ({
-    name: tnx.date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    }),
-    amount: tnx.amount,
-  }));
+  const data = transactions
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .map((tnx) => ({
+      name: tnx.date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+      amount: tnx.amount,
+    }));
   return (
     <div className="h-[400px] rounded-lg border">
       <h3 className="p-3 text-lg font-semibold">Cash Flow Trend</h3>
