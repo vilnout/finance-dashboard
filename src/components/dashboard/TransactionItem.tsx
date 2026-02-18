@@ -1,18 +1,21 @@
 import type { Transaction } from "../../types";
-import { categoryIconMap } from "../transaction/categoryConfig";
+import { categoryConfig } from "../transaction/categoryConfig";
 
 interface TransactionItemProps {
   transaction: Transaction;
 }
 
 export const TransactionItem = ({ transaction }: TransactionItemProps) => {
-  const Icon = categoryIconMap[transaction.category];
+  const Icon = categoryConfig[transaction.category].icon;
+  const iconColor = categoryConfig[transaction.category].color;
+  console.log(`${iconColor}`);
   const isExpense = transaction.amount < 0;
   return (
     <div className="mx-4 flex items-center justify-between border-b border-slate-800 p-3 px-4 text-center transition-colors last:border-0 hover:bg-slate-800/50">
       <div className="flex items-center gap-4">
         <span
-          className={`rounded-full p-3 ${isExpense ? "bg-rose-400" : "bg-emerald-400"}`}
+          className="rounded-full p-3"
+          style={{ backgroundColor: iconColor }}
         >
           <Icon size={20} />
         </span>
