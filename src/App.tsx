@@ -22,9 +22,12 @@ function App() {
     <>
       <MainLayout>
         <div className="space-y-6">
-          <div className="flex justify-between">
-            <h2 className="text-red-500">Dashboard</h2>
-            <button onClick={() => setIsModalOpen(true)}>
+          <div className="flex items-center justify-between">
+            <h2 className="text-white-500 text-2xl font-bold">Dashboard</h2>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="cursor-pointer rounded-lg bg-blue-600 p-3 font-bold text-white transition-colors hover:bg-blue-500"
+            >
               Add Transaction
             </button>
           </div>
