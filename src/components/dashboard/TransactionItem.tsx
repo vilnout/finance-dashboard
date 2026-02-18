@@ -17,7 +17,10 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           <Icon size={20} />
         </span>
         <div className="flex flex-col items-start">
-          <p className="font-medium text-slate-100">
+          <p
+            className="max-w-24 truncate font-medium text-slate-100"
+            title={transaction.description}
+          >
             {transaction.description}
           </p>
           <span className="text-xs text-slate-400">
