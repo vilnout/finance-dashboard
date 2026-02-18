@@ -8,7 +8,6 @@ interface TransactionItemProps {
 export const TransactionItem = ({ transaction }: TransactionItemProps) => {
   const Icon = categoryConfig[transaction.category].icon;
   const iconColor = categoryConfig[transaction.category].color;
-  console.log(`${iconColor}`);
   const isExpense = transaction.amount < 0;
   return (
     <div className="mx-4 flex items-center justify-between border-b border-slate-800 p-3 px-4 text-center transition-colors last:border-0 hover:bg-slate-800/50">
