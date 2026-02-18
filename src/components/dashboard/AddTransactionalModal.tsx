@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { X } from "lucide-react";
 import { useFinanceStore } from "../../store/useFinanceStore";
+import { Input, baseStyles } from "../ui/Input";
 
 const transactionSchema = z.object({
   description: z.string().min(3, "Description is too short"),
@@ -26,6 +27,8 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const labelClass = "mb-1 block text-sm font-medium text-slate-400";
 
 export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
   const addTransaction = useFinanceStore((state) => state.addTransaction);
@@ -59,12 +62,17 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
     onClose();
   };
 
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
+
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
       <div className="relative w-full max-w-md rounded-xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 text-slate-400 hover:text-white"
         >
           <X size={20} />
@@ -97,45 +105,26 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-400">
-              Amount
-            </label>
-            <input
+            <label className={labelClass}>Amount</label>
+            <Input
               type="number"
               step="0.01"
+              error={errors.amount?.message}
               {...register("amount", { valueAsNumber: true })}
-              className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
-            {errors.amount && (
-              <p className="mt-1 text-sm text-rose-500">
-                {errors.amount.message}
-              </p>
-            )}
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-400">
-              Description
-            </label>
-            <input
+            <label className={labelClass}>Description</label>
+            <Input
               type="text"
               {...register("description")}
-              className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              error={errors.description?.message}
             />
-            {errors.description && (
-              <p className="mt-1 text-sm text-rose-500">
-                {errors.description.message}
-              </p>
-            )}
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-slate-400">
-                Category
-              </label>
-              <select
-                {...register("category")}
-                className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              >
+              <label className={labelClass}>Category</label>
+              <select {...register("category")} className={baseStyles}>
                 <option value="Food">Food</option>
                 <option value="Housing">Housing</option>
                 <option value="Transport">Transport</option>
@@ -145,14 +134,8 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-slate-400">
-                Date
-              </label>
-              <input
-                type="date"
-                {...register("date")}
-                className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
+              <label className={labelClass}>Date</label>
+              <Input type="date" {...register("date")} />
             </div>
           </div>
           <button
