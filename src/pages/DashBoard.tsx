@@ -9,6 +9,7 @@ import {
 import { TrendChart } from "../components/dashboard/TrendChart";
 import { RecentTransactions } from "../components/dashboard/RecentTransactions";
 import { CategoryChart } from "../components/dashboard/CategoryChart";
+import { AddTransactionButton } from "../components/ui/AddTransactionButton";
 
 type DashBoardProps = {
   setIsModalOpen: (value: boolean) => void;
@@ -23,12 +24,7 @@ export const DashBoard = ({ setIsModalOpen }: DashBoardProps) => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-white-500 text-2xl font-bold">Dashboard</h2>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="cursor-pointer rounded-lg bg-blue-600 p-3 font-bold text-white transition-colors hover:bg-blue-500"
-          >
-            Add Transaction
-          </button>
+          <AddTransactionButton onClick={() => setIsModalOpen(true)} />
         </div>
         <p>Overview of your Financial Health</p>
       </div>
