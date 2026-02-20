@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AddTransactionModal } from "./components/dashboard/AddTransactionalModal";
 import { DashBoard } from "./pages/DashBoard";
 import { type View } from "./components/layout/navConfig";
+import { TransactionTable } from "./components/transaction/TransactionTable";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +14,7 @@ function App() {
         {currentView === "dashboard" ? (
           <DashBoard setIsModalOpen={setIsModalOpen} />
         ) : (
-          ""
+          <TransactionTable />
         )}
       </MainLayout>
       <AddTransactionModal
