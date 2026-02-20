@@ -59,6 +59,12 @@ export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
           <option value="Utilities">Utilities</option>
           <option value="Other">Other</option>
         </select>
+        <div className="sm:hidden">
+          <AddTransactionButton
+            className="w-full"
+            onClick={() => setIsModalOpen(true)}
+          />
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
@@ -110,7 +116,7 @@ export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
           </div>
         )}
       </div>
-      <div className="self-center">
+      <div className="sticky bottom-7 hidden self-center sm:block">
         <AddTransactionButton onClick={() => setIsModalOpen(true)} />
       </div>
     </div>
