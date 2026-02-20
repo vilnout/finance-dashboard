@@ -1,15 +1,18 @@
 import type { ReactNode } from "react";
 import SideBar from "./Sidebar";
 import { Menu } from "lucide-react";
+import { type View } from "./navConfig";
 
 interface MainLayoutProps {
+  currentView: View;
+  onNavigate: (view: View) => void;
   children: ReactNode;
 }
 
-function MainLayout({ children }: MainLayoutProps) {
+function MainLayout({ currentView, onNavigate, children }: MainLayoutProps) {
   return (
     <div className="min-h-screen">
-      <SideBar />
+      <SideBar currentView={currentView} onNavigate={onNavigate} />
 
       {/* Mobile header */}
       <div className="flex items-center justify-between border-b border-slate-700 p-4 md:hidden">

@@ -1,18 +1,17 @@
-import {
-  LayoutDashboard,
-  Receipt,
-  BarChart3,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { LogOut } from "lucide-react";
+import { navItems } from "./navConfig";
+import { type View } from "./navConfig";
 
-function SideBar() {
-  const navItems = [
-    { icon: LayoutDashboard, label: "DashBoard", active: true },
-    { icon: Receipt, label: "Transactions", active: false },
-    { icon: BarChart3, label: "Analytics", active: false },
-    { icon: Settings, label: "Settings", active: false },
-  ];
+type SidebarProp = {
+  currentView: View;
+  onNavigate: (view: View) => void;
+};
+
+function SideBar({ currentView, onNavigate }: SidebarProp) {
+  const handleClick = (view: View): void => {
+    onNavigate(view);
+  };
+
   return (
     <aside className="fixed top-0 left-0 hidden h-screen flex-col gap-5 border-r-2 border-slate-700 bg-slate-800 md:flex">
       <div className="p-6">
@@ -28,8 +27,9 @@ function SideBar() {
           return (
             <button
               key={Item.label}
+              onClick={() => handleClick(Item.view)}
               className={`mx-5 my-1 flex items-center gap-2 rounded-md px-8 py-3 transition-colors ${
-                Item.active
+                Item.view === currentView
                   ? "bg-blue-500 font-extrabold"
                   : "font-semibold text-slate-400 hover:bg-slate-900 hover:text-white"
               }`}
