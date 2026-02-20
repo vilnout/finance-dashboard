@@ -14,7 +14,7 @@ function App() {
         {currentView === "dashboard" ? (
           <DashBoard setIsModalOpen={setIsModalOpen} />
         ) : (
-          <TransactionTable />
+          <TransactionTable setIsModalOpen={setIsModalOpen} />
         )}
       </MainLayout>
       <AddTransactionModal

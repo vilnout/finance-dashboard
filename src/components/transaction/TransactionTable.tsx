@@ -1,28 +1,35 @@
 import { useState } from "react";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { Search, Trash2 } from "lucide-react";
+import { AddTransactionButton } from "../ui/AddTransactionButton";
 
 const baseStyles =
   "rounded-lg border border-slate-800 bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none";
 
-export const TransactionTable = () => {
+type TransactionTableProps = {
+  setIsModalOpen: (value: boolean) => void;
+};
+
+export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
 
   const transactions = useFinanceStore((state) => state.transactions);
   const removeTransaction = useFinanceStore((state) => state.removeTransaction);
 
-  const filteredTransactions = transactions.filter((tnx) => {
-    const matchesSearch = tnx.description
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      categoryFilter === "All" || tnx.category === categoryFilter;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredTransactions = transactions
+    .filter((tnx) => {
+      const matchesSearch = tnx.description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        categoryFilter === "All" || tnx.category === categoryFilter;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col space-y-4">
       <div className="flex flex-col justify-between gap-4 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:flex-row">
         <div className="relative">
           <Search
@@ -102,6 +109,9 @@ export const TransactionTable = () => {
             No Transactions found matching your filters.
           </div>
         )}
+      </div>
+      <div className="self-center">
+        <AddTransactionButton onClick={() => setIsModalOpen(true)} />
       </div>
     </div>
   );
