@@ -28,8 +28,8 @@ export const DashBoard = ({ setIsModalOpen }: DashBoardProps) => {
         </div>
         <p>Overview of your Financial Health</p>
       </div>
-      <div>
-        <div className="my-4 grid grid-cols-2 gap-2 md:grid-cols-4">
+      <div className="flex flex-col gap-4">
+        <div className="my-4 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             title="Total Balance"
             value={totalBalance}
@@ -57,11 +57,11 @@ export const DashBoard = ({ setIsModalOpen }: DashBoardProps) => {
           />
         </div>
         <TrendChart />
-        <div className="grid-col1 grid gap-2 md:grid-cols-2">
-          <div className="min-h-20 rounded-lg border-2">
+        <div className="grid-col1 grid gap-2 lg:grid-cols-2">
+          <div className="min-h-20 rounded-lg border border-slate-800">
             <RecentTransactions />
           </div>
-          <div className="min-h-20 rounded-lg border-2">
+          <div className="min-h-20 rounded-lg border border-slate-800">
             <CategoryChart />
           </div>
         </div>
