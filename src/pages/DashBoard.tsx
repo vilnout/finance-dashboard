@@ -59,7 +59,7 @@ export const DashBoard = ({ setIsModalOpen, onNavigate }: DashBoardProps) => {
           />
         </div>
         <TrendChart />
-        <div className="grid-col1 grid gap-2 lg:grid-cols-2">
+        <div className="grid-col1 grid gap-4 md:gap-2 lg:grid-cols-2">
           <div className="min-h-20 rounded-lg border border-slate-800">
             <RecentTransactions onNavigate={onNavigate} />
           </div>

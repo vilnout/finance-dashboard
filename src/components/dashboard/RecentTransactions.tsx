@@ -13,8 +13,8 @@ export const RecentTransactions = ({ onNavigate }: RecentTransactionsProps) => {
     .slice(0, 5);
 
   return (
-    <div className="flex h-full flex-col border-slate-800 p-6">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="flex h-full flex-col border-slate-800">
+      <div className="mb-6 flex items-center justify-between px-5 pt-6">
         <h3 className="text-lg font-semibold text-slate-100">
           Recent Activity
         </h3>

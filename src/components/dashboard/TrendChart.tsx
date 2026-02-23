@@ -22,7 +22,7 @@ export const TrendChart = memo(() => {
       amount: tnx.amount,
     }));
   return (
-    <div className="h-[400px] rounded-lg border">
+    <div className="h-[400px] rounded-lg border border-slate-800">
       <h3 className="p-3 text-lg font-semibold">Cash Flow Trend</h3>
       <ResponsiveContainer width="99%" height="80%">
         <AreaChart data={data}>
