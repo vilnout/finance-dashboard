@@ -1,7 +1,12 @@
 import { useFinanceStore } from "../../store/useFinanceStore";
+import type { View } from "../layout/navConfig";
 import { TransactionItem } from "./TransactionItem";
 
-export const RecentTransactions = () => {
+type RecentTransactionsProps = {
+  onNavigate: (view: View) => void;
+};
+
+export const RecentTransactions = ({ onNavigate }: RecentTransactionsProps) => {
   const transactions = useFinanceStore((state) => state.transactions);
   const sortedTransactions = transactions
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -13,7 +18,10 @@ export const RecentTransactions = () => {
         <h3 className="text-lg font-semibold text-slate-100">
           Recent Activity
         </h3>
-        <button className="text-sm text-blue-500 hover:text-blue-400">
+        <button
+          className="text-sm text-blue-500 hover:text-blue-400"
+          onClick={() => onNavigate("transactions")}
+        >
           View all
         </button>
       </div>

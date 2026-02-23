@@ -12,7 +12,10 @@ function App() {
     <>
       <MainLayout currentView={currentView} onNavigate={setCurrentView}>
         {currentView === "dashboard" ? (
-          <DashBoard setIsModalOpen={setIsModalOpen} />
+          <DashBoard
+            setIsModalOpen={setIsModalOpen}
+            onNavigate={setCurrentView}
+          />
         ) : (
           <TransactionTable setIsModalOpen={setIsModalOpen} />
         )}
