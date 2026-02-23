@@ -10,8 +10,8 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
   const iconColor = categoryConfig[transaction.category].color;
   const isExpense = transaction.amount < 0;
   return (
-    <div className="mx-4 flex items-center justify-between border-b border-slate-800 p-3 px-4 text-center transition-colors last:border-0 hover:bg-slate-800/50">
-      <div className="flex items-center gap-4">
+    <div className="scrollbar-hidden grid grid-cols-2 items-center gap-2 overflow-x-auto border-b border-slate-800 p-2 px-4 text-center transition-colors last:border-0 hover:bg-slate-800/50 md:mx-4">
+      <div className="flex items-center gap-4 justify-self-start">
         <span
           className="rounded-full p-3"
           style={{ backgroundColor: iconColor }}
@@ -30,15 +30,19 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           </span>
         </div>
       </div>
-      <div>{transaction.category}</div>
-      <div
-        className={`font-semibold ${isExpense ? "text-rose-400" : "text-emerald-400"}`}
-      >
-        {isExpense ? "-" : "+"}
-        {new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(Math.abs(transaction.amount))}
+      <div className="grid grid-cols-1 justify-self-end md:grid-cols-2 md:justify-self-auto">
+        <div className="justify-self-end md:justify-self-auto">
+          {transaction.category}
+        </div>
+        <div
+          className={`font-semibold ${isExpense ? "text-rose-400" : "text-emerald-400"}`}
+        >
+          {isExpense ? "-" : "+"}
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(Math.abs(transaction.amount))}
+        </div>
       </div>
     </div>
   );
