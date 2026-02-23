@@ -8,11 +8,15 @@ const baseStyles =
 
 type TransactionTableProps = {
   setIsModalOpen: (value: boolean) => void;
+  category?: string;
 };
 
-export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
+export const TransactionTable = ({
+  setIsModalOpen,
+  category = "All",
+}: TransactionTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [categoryFilter, setCategoryFilter] = useState(category);
 
   const transactions = useFinanceStore((state) => state.transactions);
   const removeTransaction = useFinanceStore((state) => state.removeTransaction);
@@ -23,7 +27,9 @@ export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
       const matchesCategory =
-        categoryFilter === "All" || tnx.category === categoryFilter;
+        categoryFilter === "All" ||
+        tnx.category === categoryFilter ||
+        (categoryFilter === "Expenses" && tnx.amount < 0);
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -52,6 +58,7 @@ export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
         >
           <option value="All">All Categories</option>
           <option value="Income">Income</option>
+          <option value="Expenses">Expenses</option>
           <option value="Food">Food</option>
           <option value="Housing">Housing</option>
           <option value="Transport">Transport</option>
