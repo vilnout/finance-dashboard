@@ -30,7 +30,7 @@ export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex flex-col justify-between gap-4 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:flex-row">
+      <div className="flex flex-col justify-between gap-4 overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-4 sm:flex-row">
         <div className="relative">
           <Search
             size={20}
@@ -67,43 +67,51 @@ export const TransactionTable = ({ setIsModalOpen }: TransactionTableProps) => {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
-        <table className="w-full text-left">
-          <thead className="bg-slate-950 text-xs font-semibold text-slate-400 uppercase">
+      <div className="overflow-x-auto rounded-xl border-slate-800 bg-slate-900 md:border">
+        <table className="w-full text-left md:table">
+          <thead className="hidden bg-slate-950 text-xs font-semibold text-slate-400 uppercase md:table-header-group">
             <tr>
               <th className="px-6 py-4">Date</th>
-              <th>Description</th>
-              <th>Category</th>
-              <th>Amount</th>
-              <th>Action</th>
+              <th className="px-6 py-4">Description</th>
+              <th className="px-6 py-4">Category</th>
+              <th className="px-6 py-4">Amount</th>
+              <th className="px-6 py-4">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="block divide-slate-800 md:table-row-group md:divide-y">
             {filteredTransactions.map((t) => (
               <tr
                 key={t.id}
-                className="transition-colors hover:bg-slate-800/50"
+                className="mb-4 block rounded-lg border border-slate-700 bg-slate-800 p-2 shadow-lg shadow-black/50 transition hover:bg-slate-600 md:table-row"
               >
-                <td className="px-6 py-4 text-slate-400">
-                  {new Date(t.date).toLocaleDateString()}
+                <td className="block p-2 px-6 font-medium text-white md:table-cell md:p-4">
+                  <span className="font-semibold md:hidden">Date: </span>
+                  <span>{new Date(t.date).toLocaleDateString()}</span>
                 </td>
-                <td className="font-medium text-white">{t.description}</td>
-                <td>
+                <td className="block p-2 px-6 font-medium text-white md:table-cell">
+                  <span className="font-semibold md:hidden">Description: </span>
+                  {t.description}
+                </td>
+                <td className="block p-2 px-6 font-medium text-white md:table-cell">
+                  <span className="font-semibold md:hidden">Category: </span>
                   <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-xs font-medium text-slate-300">
                     {t.category}
                   </span>
                 </td>
                 <td
-                  className={`font-bold ${t.amount < 0 ? "text-rose-500" : "text-emerald-500"}`}
+                  className={`block p-2 px-6 font-bold md:table-cell ${t.amount < 0 ? "text-rose-500" : "text-emerald-500"}`}
                 >
+                  <span className="font-semibold text-white md:hidden">
+                    Amount:{" "}
+                  </span>
                   {t.amount < 0 ? "-" : "+"}${Math.abs(t.amount).toFixed(2)}
                 </td>
-                <td>
+                <td className="block p-2 px-6 text-right md:table-cell md:text-left">
                   <button
                     onClick={() => removeTransaction(t.id)}
                     className="text-slate-500 transition-colors hover:text-rose-500"
                   >
-                    <Trash2 size={22} />
+                    <Trash2 size={25} />
                   </button>
                 </td>
               </tr>
