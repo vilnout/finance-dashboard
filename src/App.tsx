@@ -8,6 +8,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
+import { ROUTES } from "./routes/routes";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,16 +29,16 @@ function App() {
       children: [
         {
           index: true,
-          element: <Navigate to="/dashboard" replace />,
+          element: <Navigate to={ROUTES.DASHBOARD} replace />,
         },
         {
-          path: "dashboard",
+          path: ROUTES.DASHBOARD.slice(1),
           element: (
             <DashBoard setIsModalOpen={setIsModalOpen} isLoading={isLoading} />
           ),
         },
         {
-          path: "transactions",
+          path: ROUTES.TRANSACTIONS.slice(1),
           element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
         },
       ],

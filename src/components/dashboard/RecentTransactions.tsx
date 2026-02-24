@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { TransactionItem } from "./TransactionItem";
+import { ROUTES } from "../../routes/routes";
 
 export const RecentTransactions = () => {
   const transactions = useFinanceStore((state) => state.transactions);
@@ -16,7 +17,7 @@ export const RecentTransactions = () => {
         </h3>
         <Link
           className="text-sm text-blue-500 hover:text-blue-400"
-          to="/transactions"
+          to={ROUTES.TRANSACTIONS}
         >
           View all
         </Link>
