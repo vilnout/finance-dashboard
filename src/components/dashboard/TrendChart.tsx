@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { useFinanceStore } from "../../store/useFinanceStore";
 import {
   XAxis,
   YAxis,
@@ -9,18 +8,13 @@ import {
   Area,
   AreaChart,
 } from "recharts";
+import type { GroupedTransactions } from "../../utils/transactions";
 
-export const TrendChart = memo(() => {
-  const transactions = useFinanceStore((state) => state.transactions);
-  const data = transactions
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .map((tnx) => ({
-      name: tnx.date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
-      amount: tnx.amount,
-    }));
+type TrendChartProps = {
+  data: GroupedTransactions[];
+};
+
+export const TrendChart = memo(({ data }: TrendChartProps) => {
   return (
     <div className="h-[400px] rounded-lg border border-slate-800">
       <h3 className="p-3 text-lg font-semibold">Cash Flow Trend</h3>
@@ -38,7 +32,7 @@ export const TrendChart = memo(() => {
             vertical={false}
           />
           <XAxis
-            dataKey="name"
+            dataKey="date"
             stroke="#64748b"
             fontSize={12}
             tickLine={false}
@@ -61,7 +55,7 @@ export const TrendChart = memo(() => {
           />
           <Area
             type="monotone"
-            dataKey="amount"
+            dataKey="balance"
             stroke="#3b82f6"
             strokeWidth={3}
             fillOpacity={1}
