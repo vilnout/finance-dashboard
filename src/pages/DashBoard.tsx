@@ -11,17 +11,26 @@ import { RecentTransactions } from "../components/dashboard/RecentTransactions";
 import { CategoryChart } from "../components/dashboard/CategoryChart";
 import { AddTransactionButton } from "../components/ui/AddTransactionButton";
 import type { View } from "../components/layout/navConfig";
+import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
 
 type DashBoardProps = {
   setIsModalOpen: (value: boolean) => void;
   onNavigate: (view: View) => void;
+  isLoading: boolean;
 };
 
-export const DashBoard = ({ setIsModalOpen, onNavigate }: DashBoardProps) => {
+export const DashBoard = ({
+  setIsModalOpen,
+  onNavigate,
+  isLoading,
+}: DashBoardProps) => {
   const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
   const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
     monthlyStats();
-  return (
+
+  return isLoading ? (
+    <DashboardSkeleton />
+  ) : (
     <>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
