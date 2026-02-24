@@ -9,6 +9,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { ROUTES } from "./routes/routes";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,6 +43,10 @@ function App() {
           element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
         },
       ],
+    },
+    {
+      path: "*",
+      element: <NotFoundPage />,
     },
   ]);
   return (
