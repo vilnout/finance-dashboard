@@ -1,18 +1,11 @@
-import type { ReactNode } from "react";
 import SideBar from "./Sidebar";
 import { Menu } from "lucide-react";
-import { type View } from "./navConfig";
+import { Outlet } from "react-router-dom";
 
-interface MainLayoutProps {
-  currentView: View;
-  onNavigate: (view: View) => void;
-  children: ReactNode;
-}
-
-function MainLayout({ currentView, onNavigate, children }: MainLayoutProps) {
+function MainLayout() {
   return (
     <div className="min-h-screen">
-      <SideBar currentView={currentView} onNavigate={onNavigate} />
+      <SideBar />
 
       {/* Mobile header */}
       <div className="flex items-center justify-between border-b border-slate-700 p-4 md:hidden">
@@ -23,7 +16,9 @@ function MainLayout({ currentView, onNavigate, children }: MainLayoutProps) {
       </div>
 
       <main className="p-4 md:ml-64 md:p-8">
-        <div className="mx-auto max-w-7xl">{children}</div>
+        <div className="mx-auto max-w-7xl">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

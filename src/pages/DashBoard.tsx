@@ -10,21 +10,15 @@ import { TrendChart } from "../components/dashboard/TrendChart";
 import { RecentTransactions } from "../components/dashboard/RecentTransactions";
 import { CategoryChart } from "../components/dashboard/CategoryChart";
 import { AddTransactionButton } from "../components/ui/AddTransactionButton";
-import type { View } from "../components/layout/navConfig";
 import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
 import { aggregrateTransactions } from "../utils/transactions";
 
 type DashBoardProps = {
   setIsModalOpen: (value: boolean) => void;
-  onNavigate: (view: View) => void;
   isLoading: boolean;
 };
 
-export const DashBoard = ({
-  setIsModalOpen,
-  onNavigate,
-  isLoading,
-}: DashBoardProps) => {
+export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
   const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
   const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
     monthlyStats();
@@ -73,7 +67,7 @@ export const DashBoard = ({
         <TrendChart data={data} />
         <div className="grid-col1 grid gap-4 md:gap-2 lg:grid-cols-2">
           <div className="min-h-20 rounded-lg border border-slate-800">
-            <RecentTransactions onNavigate={onNavigate} />
+            <RecentTransactions />
           </div>
           <div className="min-h-20 rounded-lg border border-slate-800">
             <CategoryChart />
