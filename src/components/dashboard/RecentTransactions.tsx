@@ -1,12 +1,8 @@
+import { Link } from "react-router-dom";
 import { useFinanceStore } from "../../store/useFinanceStore";
-import type { View } from "../layout/navConfig";
 import { TransactionItem } from "./TransactionItem";
 
-type RecentTransactionsProps = {
-  onNavigate: (view: View) => void;
-};
-
-export const RecentTransactions = ({ onNavigate }: RecentTransactionsProps) => {
+export const RecentTransactions = () => {
   const transactions = useFinanceStore((state) => state.transactions);
   const sortedTransactions = transactions
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -18,12 +14,12 @@ export const RecentTransactions = ({ onNavigate }: RecentTransactionsProps) => {
         <h3 className="text-lg font-semibold text-slate-100">
           Recent Activity
         </h3>
-        <button
+        <Link
           className="text-sm text-blue-500 hover:text-blue-400"
-          onClick={() => onNavigate("transactions")}
+          to="/transactions"
         >
           View all
-        </button>
+        </Link>
       </div>
       <div className="space-y-1">
         {sortedTransactions.length === 0 ? (

@@ -2,12 +2,15 @@ import MainLayout from "./components/layout/MainLayout";
 import { useEffect, useState } from "react";
 import { AddTransactionModal } from "./components/dashboard/AddTransactionalModal";
 import { DashBoard } from "./pages/DashBoard";
-import { type View } from "./components/layout/navConfig";
 import { TransactionTable } from "./components/transaction/TransactionTable";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentView, setCurrentView] = useState<View>("dashboard");
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate a network fetch to show skeletons.
@@ -17,19 +20,32 @@ function App() {
     }, 1500);
     return () => clearTimeout(timer);
   });
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <MainLayout />,
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/dashboard" replace />,
+        },
+        {
+          path: "dashboard",
+          element: (
+            <DashBoard setIsModalOpen={setIsModalOpen} isLoading={isLoading} />
+          ),
+        },
+        {
+          path: "transactions",
+          element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
+        },
+      ],
+    },
+  ]);
   return (
     <>
-      <MainLayout currentView={currentView} onNavigate={setCurrentView}>
-        {currentView === "dashboard" ? (
-          <DashBoard
-            setIsModalOpen={setIsModalOpen}
-            onNavigate={setCurrentView}
-            isLoading={isLoading}
-          />
-        ) : (
-          <TransactionTable setIsModalOpen={setIsModalOpen} />
-        )}
-      </MainLayout>
+      <RouterProvider router={router} />
       <AddTransactionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
