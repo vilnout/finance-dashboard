@@ -4,13 +4,20 @@ import type {
   MonthlyStats,
   Budget,
   BudgetProgress,
+  Category,
 } from "../types";
+import { groupTransactionsByMonth } from "../utils/transactions";
 
 interface FinanceStore {
   transactions: Transaction[];
   budgets: Budget[];
+  currentMonth: Date;
+
   addTransaction: (transaction: Transaction) => void;
   removeTransaction: (id: string) => void;
+
+  setCurrentMonth: (date: Date) => void;
+
   getMonthlyStats: () => MonthlyStats;
   getBudgetProgress: () => BudgetProgress[];
 }
@@ -63,6 +70,9 @@ const MOCK_BUDGETS: Budget[] = [
 export const useFinanceStore = create<FinanceStore>((set, get) => ({
   transactions: MOCK_TRANSACTIONS,
   budgets: MOCK_BUDGETS,
+  currentMonth: new Date(),
+
+  setCurrentMonth: (date) => set({ currentMonth: date }),
 
   addTransaction: (newTx) =>
     set((state) => ({ transactions: [newTx, ...state.transactions] })),
@@ -93,15 +103,35 @@ export const useFinanceStore = create<FinanceStore>((set, get) => ({
   },
 
   getBudgetProgress: () => {
-    const { transactions, budgets } = get();
-    return budgets.map((budget) => {
-      const spent = transactions
-        .filter((t) => t.category === budget.category && t.amount < 0)
-        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    const { transactions, budgets, currentMonth } = get();
 
+    const key = `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
+    const grouped = groupTransactionsByMonth(transactions);
+    const data = grouped.get(key);
+
+    if (!data) {
+      return budgets.map((budget) => {
+        return {
+          ...budget,
+          spent: 0,
+          remaining: budget.limit,
+          percentage: 0,
+        };
+      });
+    }
+
+    const expenseMap = new Map<Category, number>();
+
+    for (const t of data) {
+      const current = expenseMap.get(t.category) ?? 0;
+      if (t.amount < 0)
+        expenseMap.set(t.category, current + Math.abs(t.amount));
+    }
+
+    return budgets.map((budget) => {
+      const spent = expenseMap.get(budget.category) ?? 0;
       const remaining = budget.limit - spent;
       const percentage = Math.min((spent / budget.limit) * 100, 100);
-
       return {
         ...budget,
         spent,
