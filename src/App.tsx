@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { ROUTES } from "./routes/routes";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { Budgets } from "./pages/Budgets";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,6 +34,7 @@ function App() {
           element: <Navigate to={ROUTES.DASHBOARD} replace />,
         },
         {
+          //requires relative paths, so .slice to remove the initial '/'
           path: ROUTES.DASHBOARD.slice(1),
           element: (
             <DashBoard setIsModalOpen={setIsModalOpen} isLoading={isLoading} />
@@ -41,6 +43,10 @@ function App() {
         {
           path: ROUTES.TRANSACTIONS.slice(1),
           element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
+        },
+        {
+          path: ROUTES.BUDGETS.slice(1),
+          element: <Budgets />,
         },
       ],
     },

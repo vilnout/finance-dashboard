@@ -21,3 +21,15 @@ export interface MonthlyStats {
   monthlyExpenses: number;
   savingsRate: number;
 }
+
+export interface Budget {
+  id: string;
+  category: Category;
+  limit: number;
+}
+
+export interface BudgetProgress extends Budget {
+  spent: number;
+  remaining: number;
+  percentage: number;
+}
