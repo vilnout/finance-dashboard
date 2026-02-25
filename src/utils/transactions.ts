@@ -45,3 +45,18 @@ export const aggregrateTransactions = (
       balance: value.income - value.expense,
     }));
 };
+
+export const groupTransactionsByMonth = (transactions: Transaction[]) => {
+  const map = new Map<string, Transaction[]>();
+
+  for (const t of transactions) {
+    const d = new Date(t.date);
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+    map.get(key)!.push(t);
+  }
+  return map;
+};
