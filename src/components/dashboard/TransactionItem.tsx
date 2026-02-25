@@ -31,11 +31,14 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
         </div>
       </div>
       <div className="grid grid-cols-1 justify-self-end md:grid-cols-2 md:justify-self-auto">
-        <div className="justify-self-end md:justify-self-auto">
+        <div
+          className="justify-self-end truncate md:justify-self-auto"
+          title={transaction.category}
+        >
           {transaction.category}
         </div>
         <div
-          className={`font-semibold ${isExpense ? "text-rose-400" : "text-emerald-400"}`}
+          className={`font-semibold ${isExpense ? "text-rose-400" : "text-emerald-400"} justify-self-end`}
         >
           {isExpense ? "-" : "+"}
           {new Intl.NumberFormat("en-US", {
