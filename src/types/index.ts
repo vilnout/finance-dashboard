@@ -21,7 +21,7 @@ export interface MonthlyStats {
 
 export interface Budget {
   id: string;
-  category: Category;
+  category: ExpenseCategory;
   limit: number;
 }
 
