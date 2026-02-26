@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BudgetCard } from "../components/budgets/BudgetCard";
 import { useFinanceStore } from "../store/useFinanceStore";
 import type { Budget } from "../types";
 import { Calendar, Plus } from "lucide-react";
 import { ManageBudgetModal } from "../components/budgets/ManageBudgetModal";
+import { getBudgetProgress } from "../utils/budgets";
 
 export const Budgets = () => {
-  const budgetProgresss = useFinanceStore((state) => state.getBudgetProgress);
-  const budgetProgress = budgetProgresss();
+  const transactions = useFinanceStore((state) => state.transactions);
+  const budgets = useFinanceStore((state) => state.budgets);
   const currentMonth = useFinanceStore((state) => state.currentMonth);
+
+  const budgetProgress = useMemo(() => {
+    return getBudgetProgress(transactions, budgets, currentMonth);
+  }, [transactions, budgets, currentMonth]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState<Budget | null>(null);
