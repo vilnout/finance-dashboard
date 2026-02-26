@@ -1,11 +1,8 @@
-export type Category =
-  | "Housing"
-  | "Food"
-  | "Transport"
-  | "Utilities"
-  | "Entertainment"
-  | "Income"
-  | "Other";
+import type { categoryConfig } from "../components/transaction/categoryConfig";
+
+export type Category = keyof typeof categoryConfig;
+
+export type ExpenseCategory = Exclude<Category, "Income">;
 
 export interface Transaction {
   id: string;
@@ -24,7 +21,7 @@ export interface MonthlyStats {
 
 export interface Budget {
   id: string;
-  category: Category;
+  category: ExpenseCategory;
   limit: number;
 }
 

@@ -12,6 +12,8 @@ import { CategoryChart } from "../components/dashboard/CategoryChart";
 import { AddTransactionButton } from "../components/ui/AddTransactionButton";
 import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
 import { aggregrateTransactions } from "../utils/transactions";
+import { useMemo } from "react";
+import { getMonthlyStats } from "../utils/monthlyStats";
 
 type DashBoardProps = {
   setIsModalOpen: (value: boolean) => void;
@@ -19,11 +21,12 @@ type DashBoardProps = {
 };
 
 export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
-  const monthlyStats = useFinanceStore((state) => state.getMonthlyStats);
-  const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
-    monthlyStats();
   const transactions = useFinanceStore((state) => state.transactions);
   const data = aggregrateTransactions(transactions);
+  const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
+    useMemo(() => {
+      return getMonthlyStats(transactions);
+    }, [transactions]);
 
   return isLoading ? (
     <DashboardSkeleton />
