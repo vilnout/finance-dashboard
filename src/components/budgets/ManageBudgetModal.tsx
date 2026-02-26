@@ -27,15 +27,22 @@ interface ManageBudgetModalProps {
   isOpen: boolean;
   onClose: () => void;
   existingBudget?: Budget | null;
+  usedCategories: ExpenseCategory[];
 }
 
 export const ManageBudgetModal = ({
   isOpen,
   onClose,
   existingBudget,
+  usedCategories,
 }: ManageBudgetModalProps) => {
   const addBudget = useFinanceStore((state) => state.addBudget);
   const updateBudget = useFinanceStore((state) => state.updateBudget);
+  const validCategories = existingBudget
+    ? expenseCategories
+    : expenseCategories.filter((c) => !usedCategories.includes(c));
+
+  const defaultCategory = validCategories[0] ?? "";
   const {
     register,
     handleSubmit,
@@ -44,7 +51,7 @@ export const ManageBudgetModal = ({
     formState: { errors },
   } = useForm<BudgetFormData>({
     resolver: zodResolver(budgetSchema),
-    defaultValues: { category: "Food", limit: 0 },
+    defaultValues: { category: defaultCategory, limit: 0 },
   });
 
   useEffect(() => {
@@ -52,9 +59,9 @@ export const ManageBudgetModal = ({
       setValue("category", existingBudget.category as ExpenseCategory);
       setValue("limit", existingBudget.limit);
     } else {
-      reset({ category: "Food", limit: 0 });
+      reset({ category: defaultCategory, limit: 0 });
     }
-  }, [existingBudget, setValue, reset, isOpen]);
+  }, [existingBudget, setValue, reset, isOpen, defaultCategory]);
 
   const onSubmit = (data: BudgetFormData) => {
     if (existingBudget) {
@@ -92,7 +99,7 @@ export const ManageBudgetModal = ({
               disabled={!!existingBudget}
               className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:opacity-50"
             >
-              {expenseCategories.map((category) => (
+              {validCategories.map((category) => (
                 <option key={category} value={category}>
                   {category}
                 </option>

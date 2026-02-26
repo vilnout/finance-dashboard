@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { BudgetCard } from "../components/budgets/BudgetCard";
 import { useFinanceStore } from "../store/useFinanceStore";
-import type { Budget } from "../types";
+import type { Budget, ExpenseCategory } from "../types";
 import { Calendar, Plus } from "lucide-react";
 import { ManageBudgetModal } from "../components/budgets/ManageBudgetModal";
 import { getBudgetProgress } from "../utils/budgets";
@@ -17,6 +17,9 @@ export const Budgets = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState<Budget | null>(null);
+  const usedCategories = budgets.map(
+    (b) => b.category,
+  ) satisfies ExpenseCategory[];
 
   const handleEdit = (budget: Budget) => {
     setBudgetToEdit(budget);
@@ -64,6 +67,7 @@ export const Budgets = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         existingBudget={budgetToEdit}
+        usedCategories={usedCategories}
       />
     </div>
   );
