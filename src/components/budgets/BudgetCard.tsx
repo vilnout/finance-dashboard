@@ -1,7 +1,7 @@
-import { Pencil, Trash2 } from "lucide-react";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { type Budget, type BudgetProgress } from "../../types";
 import { categoryConfig } from "../transaction/categoryConfig";
+import { BudgetEditMenu } from "./BudgetEditMenu";
 
 interface BudgetCardProps {
   budget: BudgetProgress;
@@ -27,7 +27,7 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
   }
 
   return (
-    <div className="group rounded-xl border border-slate-800 bg-slate-900 p-6 transition-colors hover:border-slate-700">
+    <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 transition-colors hover:border-slate-700">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div
@@ -39,23 +39,14 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
           <h3 className="font-semibold text-slate-100">{budget.category}</h3>
         </div>
         <div className="flex flex-row-reverse items-center gap-2">
+          <BudgetEditMenu
+            budget={budget}
+            onEdit={onEdit}
+            onDelete={deleteBudget}
+          />
           <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-xs font-medium text-slate-400">
             {formatMoney(budget.limit)} limit
           </span>
-          <div className="flex gap-2 md:opacity-0 md:group-hover:opacity-100">
-            <button
-              onClick={() => onEdit(budget)}
-              className="text-slate-500 hover:text-blue-500"
-            >
-              <Pencil size={16} />
-            </button>
-            <button
-              onClick={() => deleteBudget(budget.id)}
-              className="text-slate-500 hover:text-rose-500"
-            >
-              <Trash2 size={16} />
-            </button>
-          </div>
         </div>
       </div>
 
