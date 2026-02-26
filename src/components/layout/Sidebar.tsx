@@ -1,8 +1,10 @@
 import { LogOut } from "lucide-react";
 import { navItems } from "./navConfig";
 import { NavLink } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 function SideBar() {
+  const logout = useAuthStore((state) => state.logout);
   return (
     <aside className="fixed top-0 left-0 hidden h-screen flex-col gap-5 border-r-2 border-slate-700 bg-slate-800 md:flex">
       <div className="p-6">
@@ -34,7 +36,10 @@ function SideBar() {
         })}
       </nav>
       <div className="border-t border-slate-700 p-4">
-        <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-slate-400 transition-colors hover:bg-slate-900 hover:text-red-400">
+        <button
+          className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-slate-400 transition-colors hover:bg-slate-900 hover:text-red-400"
+          onClick={logout}
+        >
           <LogOut size={20} />
           <span className="font-medium">Logout</span>
         </button>

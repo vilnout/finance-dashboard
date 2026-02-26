@@ -5,4 +5,5 @@ export const ROUTES = {
   BUDGETS: "/budgets",
   ANALYTICS: "/analytics",
   SETTINGS: "/settings",
+  LOGIN: "/login",
 } as const;

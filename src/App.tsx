@@ -11,6 +11,8 @@ import {
 import { ROUTES } from "./routes/routes";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { Budgets } from "./pages/Budgets";
+import { Login } from "./pages/Login";
+import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,33 +28,45 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <MainLayout />,
-      children: [
-        {
-          index: true,
-          element: <Navigate to={ROUTES.DASHBOARD} replace />,
-        },
-        {
-          //requires relative paths, so .slice to remove the initial '/'
-          path: ROUTES.DASHBOARD.slice(1),
-          element: (
-            <DashBoard setIsModalOpen={setIsModalOpen} isLoading={isLoading} />
-          ),
-        },
-        {
-          path: ROUTES.TRANSACTIONS.slice(1),
-          element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
-        },
-        {
-          path: ROUTES.BUDGETS.slice(1),
-          element: <Budgets />,
-        },
-      ],
+      path: ROUTES.LOGIN,
+      element: <Login />,
     },
     {
-      path: "*",
-      element: <NotFoundPage />,
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: "/",
+          element: <MainLayout />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to={ROUTES.DASHBOARD} replace />,
+            },
+            {
+              //requires relative paths, so .slice to remove the initial '/'
+              path: ROUTES.DASHBOARD.slice(1),
+              element: (
+                <DashBoard
+                  setIsModalOpen={setIsModalOpen}
+                  isLoading={isLoading}
+                />
+              ),
+            },
+            {
+              path: ROUTES.TRANSACTIONS.slice(1),
+              element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
+            },
+            {
+              path: ROUTES.BUDGETS.slice(1),
+              element: <Budgets />,
+            },
+          ],
+        },
+        {
+          path: "*",
+          element: <NotFoundPage />,
+        },
+      ],
     },
   ]);
   return (
