@@ -3,19 +3,22 @@ import { useFinanceStore } from "../../store/useFinanceStore";
 import { Search, Trash2 } from "lucide-react";
 import { AddTransactionButton } from "../ui/AddTransactionButton";
 import { useToastStore } from "../../store/useToastStore";
+import { filterTransactions } from "../../utils/transactions";
+import type { TransactionFormCategory } from "../../types";
+import { transactionFormCategories } from "./categoryConfig";
 
 const baseStyles =
   "rounded-lg border border-slate-800 bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none";
 
 type TransactionTableProps = {
   setIsModalOpen?: (value: boolean) => void;
-  category?: string;
+  category?: TransactionFormCategory;
   showAddButton: boolean;
 };
 
 export const TransactionTable = ({
   setIsModalOpen,
-  category = "All",
+  category = "All Categories",
   showAddButton,
 }: TransactionTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,19 +27,11 @@ export const TransactionTable = ({
   const transactions = useFinanceStore((state) => state.transactions);
   const removeTransaction = useFinanceStore((state) => state.removeTransaction);
   const addToast = useToastStore((state) => state.addToast);
-
-  const filteredTransactions = transactions
-    .filter((tnx) => {
-      const matchesSearch = tnx.description
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        categoryFilter === "All" ||
-        tnx.category === categoryFilter ||
-        (categoryFilter === "Expenses" && tnx.amount < 0);
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const filteredTransactions = filterTransactions(
+    searchTerm,
+    categoryFilter,
+    transactions,
+  );
 
   const onDelete = (id: string) => {
     removeTransaction(id);
@@ -62,18 +57,16 @@ export const TransactionTable = ({
 
         <select
           value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
+          onChange={(e) =>
+            setCategoryFilter(e.target.value as TransactionFormCategory)
+          }
           className={`${baseStyles} px-4 py-2 text-white focus:outline-none`}
         >
-          <option value="All">All Categories</option>
-          <option value="Income">Income</option>
-          <option value="Expenses">Expenses</option>
-          <option value="Food">Food</option>
-          <option value="Housing">Housing</option>
-          <option value="Transport">Transport</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Utilities">Utilities</option>
-          <option value="Other">Other</option>
+          {transactionFormCategories.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
         </select>
       </div>
       <div className="sm:hidden">

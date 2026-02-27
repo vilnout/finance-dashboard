@@ -1,4 +1,4 @@
-import type { Transaction } from "../types";
+import type { Transaction, TransactionFormCategory } from "../types";
 
 interface AccTransactions {
   [name: string]: {
@@ -59,4 +59,24 @@ export const groupTransactionsByMonth = (transactions: Transaction[]) => {
     map.get(key)!.push(t);
   }
   return map;
+};
+
+export const filterTransactions = (
+  searchTerm: string,
+  categoryFilter: TransactionFormCategory,
+  transactions: Transaction[],
+) => {
+  return transactions
+    .filter((tnx) => {
+      const matchesSearch = tnx.description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        tnx.category === categoryFilter ||
+        categoryFilter === "All Categories" ||
+        (categoryFilter === "Expenses" && tnx.amount < 0);
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
