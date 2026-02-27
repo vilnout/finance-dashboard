@@ -31,4 +31,4 @@ export interface BudgetProgress extends Budget {
   percentage: number;
 }
 
-export type ToastType = "success" | "error";
+export type ToastType = "success" | "error" | "info";
