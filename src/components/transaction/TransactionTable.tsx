@@ -8,13 +8,15 @@ const baseStyles =
   "rounded-lg border border-slate-800 bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none";
 
 type TransactionTableProps = {
-  setIsModalOpen: (value: boolean) => void;
+  setIsModalOpen?: (value: boolean) => void;
   category?: string;
+  showAddButton: boolean;
 };
 
 export const TransactionTable = ({
   setIsModalOpen,
   category = "All",
+  showAddButton,
 }: TransactionTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState(category);
@@ -73,12 +75,14 @@ export const TransactionTable = ({
           <option value="Utilities">Utilities</option>
           <option value="Other">Other</option>
         </select>
-        <div className="sm:hidden">
+      </div>
+      <div className="sm:hidden">
+        {showAddButton && setIsModalOpen && (
           <AddTransactionButton
             className="w-full"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen?.(true)}
           />
-        </div>
+        )}
       </div>
 
       <div className="overflow-x-auto rounded-xl border-slate-800 bg-slate-900 md:border">
@@ -120,7 +124,7 @@ export const TransactionTable = ({
                   </span>
                   {t.amount < 0 ? "-" : "+"}${Math.abs(t.amount).toFixed(2)}
                 </td>
-                <td className="block p-2 px-6 text-right md:table-cell md:text-left">
+                <td className="block p-2 px-6 text-right md:table-cell md:pl-8 md:text-left">
                   <button
                     onClick={() => onDelete(t.id)}
                     className="text-slate-500 transition-colors hover:text-rose-500"
@@ -137,9 +141,6 @@ export const TransactionTable = ({
             No Transactions found matching your filters.
           </div>
         )}
-      </div>
-      <div className="sticky bottom-7 hidden self-center sm:block">
-        <AddTransactionButton onClick={() => setIsModalOpen(true)} />
       </div>
     </div>
   );
