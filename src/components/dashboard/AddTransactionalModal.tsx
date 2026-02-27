@@ -4,6 +4,7 @@ import * as z from "zod";
 import { X } from "lucide-react";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { Input, baseStyles } from "../ui/Input";
+import { useToastStore } from "../../store/useToastStore";
 
 const transactionSchema = z.object({
   description: z.string().min(3, "Description is too short"),
@@ -32,6 +33,7 @@ const labelClass = "mb-1 block text-sm font-medium text-slate-400";
 
 export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
   const addTransaction = useFinanceStore((state) => state.addTransaction);
+  const addToast = useToastStore((state) => state.addToast);
 
   const {
     register,
@@ -58,6 +60,8 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
       date: new Date(data.date),
       category: data.category,
     });
+
+    addToast("Transaction added successfully!", "success");
     reset();
     onClose();
   };

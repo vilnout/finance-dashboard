@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { Search, Trash2 } from "lucide-react";
 import { AddTransactionButton } from "../ui/AddTransactionButton";
+import { useToastStore } from "../../store/useToastStore";
 
 const baseStyles =
   "rounded-lg border border-slate-800 bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none";
@@ -20,6 +21,7 @@ export const TransactionTable = ({
 
   const transactions = useFinanceStore((state) => state.transactions);
   const removeTransaction = useFinanceStore((state) => state.removeTransaction);
+  const addToast = useToastStore((state) => state.addToast);
 
   const filteredTransactions = transactions
     .filter((tnx) => {
@@ -33,6 +35,11 @@ export const TransactionTable = ({
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const onDelete = (id: string) => {
+    removeTransaction(id);
+    addToast("Transaction removed!", "success");
+  };
 
   return (
     <div className="flex flex-col space-y-4">
@@ -115,7 +122,7 @@ export const TransactionTable = ({
                 </td>
                 <td className="block p-2 px-6 text-right md:table-cell md:text-left">
                   <button
-                    onClick={() => removeTransaction(t.id)}
+                    onClick={() => onDelete(t.id)}
                     className="text-slate-500 transition-colors hover:text-rose-500"
                   >
                     <Trash2 size={25} />

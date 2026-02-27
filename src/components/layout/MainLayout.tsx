@@ -1,11 +1,13 @@
 import SideBar from "./Sidebar";
 import { Menu } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "../ui/ToastContainer";
 
 function MainLayout() {
   return (
     <div className="min-h-screen">
       <SideBar />
+      <ToastContainer />
 
       {/* Mobile header */}
       <div className="flex items-center justify-between border-b border-slate-700 p-4 md:hidden">

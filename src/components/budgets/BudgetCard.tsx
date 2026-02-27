@@ -1,4 +1,5 @@
 import { useFinanceStore } from "../../store/useFinanceStore";
+import { useToastStore } from "../../store/useToastStore";
 import { type Budget, type BudgetProgress } from "../../types";
 import { categoryConfig } from "../transaction/categoryConfig";
 import { BudgetEditMenu } from "./BudgetEditMenu";
@@ -9,6 +10,9 @@ interface BudgetCardProps {
 }
 
 export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
+  const deleteBudget = useFinanceStore((state) => state.deleteBudget);
+  const addToast = useToastStore((state) => state.addToast);
+
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat("en-us", {
       style: "currency",
@@ -17,7 +21,6 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
 
   const Icon = categoryConfig[budget.category].icon;
   const iconColor = categoryConfig[budget.category].color;
-  const deleteBudget = useFinanceStore((state) => state.deleteBudget);
 
   let barColor = "bg-emerald-500";
   if (budget.percentage >= 90) {
@@ -25,6 +28,11 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
   } else if (budget.percentage >= 75) {
     barColor = "bg-amber-500";
   }
+
+  const onDelete = (id: string) => {
+    deleteBudget(id);
+    addToast("Budget Deleted!", "success");
+  };
 
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 transition-colors hover:border-slate-700">
@@ -39,11 +47,7 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
           <h3 className="font-semibold text-slate-100">{budget.category}</h3>
         </div>
         <div className="flex flex-row-reverse items-center gap-2">
-          <BudgetEditMenu
-            budget={budget}
-            onEdit={onEdit}
-            onDelete={deleteBudget}
-          />
+          <BudgetEditMenu budget={budget} onEdit={onEdit} onDelete={onDelete} />
           <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-xs font-medium text-slate-400">
             {formatMoney(budget.limit)} limit
           </span>
