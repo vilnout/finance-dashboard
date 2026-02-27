@@ -135,6 +135,11 @@ export const TransactionTable = ({
           </div>
         )}
       </div>
+      <div className="sticky bottom-7 hidden self-center sm:block">
+        {showAddButton && setIsModalOpen && (
+          <AddTransactionButton onClick={() => setIsModalOpen?.(true)} />
+        )}
+      </div>
     </div>
   );
 };
