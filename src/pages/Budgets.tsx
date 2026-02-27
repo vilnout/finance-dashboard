@@ -5,11 +5,14 @@ import type { Budget, ExpenseCategory } from "../types";
 import { Calendar, Plus } from "lucide-react";
 import { ManageBudgetModal } from "../components/budgets/ManageBudgetModal";
 import { getBudgetProgress } from "../utils/budgets";
+import { useToastStore } from "../store/useToastStore";
+import { expenseCategories } from "../components/transaction/categoryConfig";
 
 export const Budgets = () => {
   const transactions = useFinanceStore((state) => state.transactions);
   const budgets = useFinanceStore((state) => state.budgets);
   const currentMonth = useFinanceStore((state) => state.currentMonth);
+  const addToast = useToastStore((state) => state.addToast);
 
   const budgetProgress = useMemo(() => {
     return getBudgetProgress(transactions, budgets, currentMonth);
@@ -20,6 +23,9 @@ export const Budgets = () => {
   const usedCategories = budgets.map(
     (b) => b.category,
   ) satisfies ExpenseCategory[];
+  const remainingCategories = expenseCategories.filter(
+    (c) => !usedCategories.includes(c),
+  );
 
   const handleEdit = (budget: Budget) => {
     setBudgetToEdit(budget);
@@ -27,6 +33,10 @@ export const Budgets = () => {
   };
 
   const handleCreate = () => {
+    if (remainingCategories.length == 0) {
+      addToast("No more budget categories available.", "info");
+      return;
+    }
     setBudgetToEdit(null);
     setIsModalOpen(true);
   };
@@ -67,7 +77,7 @@ export const Budgets = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         existingBudget={budgetToEdit}
-        usedCategories={usedCategories}
+        remainingCategories={remainingCategories}
       />
     </div>
   );

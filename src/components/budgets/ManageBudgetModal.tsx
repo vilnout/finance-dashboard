@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 import { expenseCategories } from "../transaction/categoryConfig";
 import { Input } from "../ui/Input";
+import { useToastStore } from "../../store/useToastStore";
 
 const budgetSchema = z.object({
   category: z.enum([
@@ -27,20 +28,22 @@ interface ManageBudgetModalProps {
   isOpen: boolean;
   onClose: () => void;
   existingBudget?: Budget | null;
-  usedCategories: ExpenseCategory[];
+  remainingCategories: ExpenseCategory[];
 }
 
 export const ManageBudgetModal = ({
   isOpen,
   onClose,
   existingBudget,
-  usedCategories,
+  remainingCategories,
 }: ManageBudgetModalProps) => {
   const addBudget = useFinanceStore((state) => state.addBudget);
   const updateBudget = useFinanceStore((state) => state.updateBudget);
+  const addToast = useToastStore((state) => state.addToast);
+
   const validCategories = existingBudget
     ? expenseCategories
-    : expenseCategories.filter((c) => !usedCategories.includes(c));
+    : remainingCategories;
 
   const defaultCategory = validCategories[0] ?? "";
   const {
@@ -73,6 +76,12 @@ export const ManageBudgetModal = ({
         limit: data.limit,
       });
     }
+    addToast(
+      existingBudget
+        ? "Budget edited successfully!"
+        : "Budget added successfully!",
+      "success",
+    );
     onClose();
   };
   if (!isOpen) return null;
