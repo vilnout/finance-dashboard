@@ -135,7 +135,7 @@ export const TransactionTable = ({
           </div>
         )}
       </div>
-      <div className="sticky bottom-7 hidden self-center sm:block">
+      <div className="sticky bottom-25 hidden self-center sm:block md:bottom-7">
         {showAddButton && setIsModalOpen && (
           <AddTransactionButton onClick={() => setIsModalOpen?.(true)} />
         )}
