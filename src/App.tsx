@@ -2,7 +2,6 @@ import MainLayout from "./components/layout/MainLayout";
 import { useEffect, useState } from "react";
 import { AddTransactionModal } from "./components/dashboard/AddTransactionalModal";
 import { DashBoard } from "./pages/DashBoard";
-import { TransactionTable } from "./components/transaction/TransactionTable";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -13,6 +12,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { Budgets } from "./pages/Budgets";
 import { Login } from "./pages/Login";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import { Transactions } from "./pages/Transactions";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +54,7 @@ function App() {
             },
             {
               path: ROUTES.TRANSACTIONS.slice(1),
-              element: <TransactionTable setIsModalOpen={setIsModalOpen} />,
+              element: <Transactions setIsModalOpen={setIsModalOpen} />,
             },
             {
               path: ROUTES.BUDGETS.slice(1),

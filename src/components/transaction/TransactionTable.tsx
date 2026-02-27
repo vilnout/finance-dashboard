@@ -3,18 +3,23 @@ import { useFinanceStore } from "../../store/useFinanceStore";
 import { Search, Trash2 } from "lucide-react";
 import { AddTransactionButton } from "../ui/AddTransactionButton";
 import { useToastStore } from "../../store/useToastStore";
+import { filterTransactions } from "../../utils/transactions";
+import type { TransactionFormCategory } from "../../types";
+import { transactionFormCategories } from "./categoryConfig";
 
 const baseStyles =
   "rounded-lg border border-slate-800 bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none";
 
 type TransactionTableProps = {
-  setIsModalOpen: (value: boolean) => void;
-  category?: string;
+  setIsModalOpen?: (value: boolean) => void;
+  category?: TransactionFormCategory;
+  showAddButton: boolean;
 };
 
 export const TransactionTable = ({
   setIsModalOpen,
-  category = "All",
+  category = "All Categories",
+  showAddButton,
 }: TransactionTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState(category);
@@ -22,19 +27,11 @@ export const TransactionTable = ({
   const transactions = useFinanceStore((state) => state.transactions);
   const removeTransaction = useFinanceStore((state) => state.removeTransaction);
   const addToast = useToastStore((state) => state.addToast);
-
-  const filteredTransactions = transactions
-    .filter((tnx) => {
-      const matchesSearch = tnx.description
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        categoryFilter === "All" ||
-        tnx.category === categoryFilter ||
-        (categoryFilter === "Expenses" && tnx.amount < 0);
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const filteredTransactions = filterTransactions(
+    searchTerm,
+    categoryFilter,
+    transactions,
+  );
 
   const onDelete = (id: string) => {
     removeTransaction(id);
@@ -60,25 +57,25 @@ export const TransactionTable = ({
 
         <select
           value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
+          onChange={(e) =>
+            setCategoryFilter(e.target.value as TransactionFormCategory)
+          }
           className={`${baseStyles} px-4 py-2 text-white focus:outline-none`}
         >
-          <option value="All">All Categories</option>
-          <option value="Income">Income</option>
-          <option value="Expenses">Expenses</option>
-          <option value="Food">Food</option>
-          <option value="Housing">Housing</option>
-          <option value="Transport">Transport</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Utilities">Utilities</option>
-          <option value="Other">Other</option>
+          {transactionFormCategories.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
         </select>
-        <div className="sm:hidden">
+      </div>
+      <div className="sm:hidden">
+        {showAddButton && setIsModalOpen && (
           <AddTransactionButton
             className="w-full"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen?.(true)}
           />
-        </div>
+        )}
       </div>
 
       <div className="overflow-x-auto rounded-xl border-slate-800 bg-slate-900 md:border">
@@ -120,7 +117,7 @@ export const TransactionTable = ({
                   </span>
                   {t.amount < 0 ? "-" : "+"}${Math.abs(t.amount).toFixed(2)}
                 </td>
-                <td className="block p-2 px-6 text-right md:table-cell md:text-left">
+                <td className="block p-2 px-6 text-right md:table-cell md:pl-8 md:text-left">
                   <button
                     onClick={() => onDelete(t.id)}
                     className="text-slate-500 transition-colors hover:text-rose-500"
@@ -139,7 +136,9 @@ export const TransactionTable = ({
         )}
       </div>
       <div className="sticky bottom-7 hidden self-center sm:block">
-        <AddTransactionButton onClick={() => setIsModalOpen(true)} />
+        {showAddButton && setIsModalOpen && (
+          <AddTransactionButton onClick={() => setIsModalOpen?.(true)} />
+        )}
       </div>
     </div>
   );
