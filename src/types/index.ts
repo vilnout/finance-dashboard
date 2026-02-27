@@ -1,8 +1,14 @@
-import type { categoryConfig } from "../components/transaction/categoryConfig";
+import {
+  transactionFormCategories,
+  type categoryConfig,
+} from "../components/transaction/categoryConfig";
 
 export type Category = keyof typeof categoryConfig;
 
 export type ExpenseCategory = Exclude<Category, "Income">;
+
+export type TransactionFormCategory =
+  (typeof transactionFormCategories)[number];
 
 export interface Transaction {
   id: string;
