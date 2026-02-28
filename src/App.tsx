@@ -54,7 +54,12 @@ function App() {
             },
             {
               path: ROUTES.TRANSACTIONS.slice(1),
-              element: <Transactions setIsModalOpen={setIsModalOpen} />,
+              element: (
+                <Transactions
+                  setIsModalOpen={setIsModalOpen}
+                  isLoading={isLoading}
+                />
+              ),
             },
             {
               path: ROUTES.BUDGETS.slice(1),
