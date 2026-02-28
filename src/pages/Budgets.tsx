@@ -18,6 +18,8 @@ export const Budgets = () => {
     return getBudgetProgress(transactions, budgets, currentMonth);
   }, [transactions, budgets, currentMonth]);
 
+  const hasBudgets = budgetProgress.length > 0;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState<Budget | null>(null);
   const usedCategories = budgets.map(
@@ -59,20 +61,24 @@ export const Budgets = () => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
-          <button
-            onClick={handleCreate}
-            className="mt-2 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2 text-white transition-colors hover:bg-blue-500"
-          >
-            <Plus size={20} />
-          </button>
+        <button
+          onClick={handleCreate}
+          className="mt-2 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2 text-white transition-colors hover:bg-blue-500"
+        >
+          <Plus size={20} />
+        </button>
+      </div>
+      {hasBudgets ? (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {budgetProgress.map((budget) => (
+            <BudgetCard key={budget.id} budget={budget} onEdit={handleEdit} />
+          ))}
         </div>
-      </div>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {budgetProgress.map((budget) => (
-          <BudgetCard key={budget.id} budget={budget} onEdit={handleEdit} />
-        ))}
-      </div>
+      ) : (
+        <p className="flex grow items-center justify-center p-8 text-slate-400">
+          Create your first budget to start tracking your spending.
+        </p>
+      )}
       <ManageBudgetModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
