@@ -13,13 +13,15 @@ export const ToastContainer = () => {
   };
 
   const styleMap: Record<ToastType, React.ReactNode> = {
-    success: "border border-emerald-500/10 bg-emerald-500/10 text-emerald-500",
-    error: "border border-rose-500/20 bg-rose-500/10 text-rose-500",
-    info: "border border-blue-500/20 bg-blue-500/10 text-blue-500",
+    success:
+      "border border-emerald-500/10 bg-emerald-500/70 md:bg-emerald-500/10 text-emerald-400",
+    error:
+      "border border-rose-500/20 bg-rose-500/70 md:bg-rose-500/10 text-rose-400",
+    info: "border border-blue-500/20 bg-blue-500/70 md:bg-blue-500/10 text-blue-400",
   };
 
   return (
-    <div className="fixed right-4 bottom-4 z-100 flex flex-col gap-2">
+    <div className="fixed right-4 bottom-25 z-100 flex flex-col gap-2">
       {toasts.map((toast) => (
         <div
           key={toast.id}
