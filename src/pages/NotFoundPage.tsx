@@ -5,7 +5,7 @@ export const NotFoundPage = () => {
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <h1 className="mb-4 text-6xl font-bold text-rose-500">404</h1>
-      <div className="mb-6 text-xl">
+      <div className="mb-6 text-center text-xl">
         Oops! The Page you are looking for does not exist
       </div>
       <Link
