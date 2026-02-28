@@ -9,6 +9,7 @@ import {
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { categoryConfig } from "../transaction/categoryConfig";
 import type { Category } from "../../types";
+import { isCategoryName } from "../../types/category";
 
 export const CategoryChart = () => {
   const transactions = useFinanceStore((state) => state.transactions);
@@ -31,6 +32,11 @@ export const CategoryChart = () => {
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value);
 
+  const hasData = data.length > 0;
+  const placeholderData = [{ name: "No data", value: 100 }];
+
+  const renderData = hasData ? data : placeholderData;
+
   return (
     <div className="h-full bg-slate-900 p-6">
       <h3 className="mb-4 text-lg font-semibold text-slate-100">
@@ -40,7 +46,7 @@ export const CategoryChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={renderData}
               cx="50%"
               cy="50%"
               innerRadius={60}
@@ -48,24 +54,30 @@ export const CategoryChart = () => {
               paddingAngle={5}
               dataKey="value"
             >
-              {data.map((entry, index) => (
+              {renderData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={categoryConfig[entry.name].color}
+                  fill={
+                    hasData && isCategoryName(entry.name)
+                      ? categoryConfig[entry.name].color
+                      : "#334155"
+                  }
                   stroke="none"
                 />
               ))}
             </Pie>
-            <Tooltip
-              formatter={(value: number) => `$${value}`}
-              contentStyle={{
-                backgroundColor: `#0f172a`,
-                border: "1px solid #1e293b",
-                borderRadius: "8px",
-                color: "#fff",
-              }}
-              itemStyle={{ color: "#fff" }}
-            />
+            {hasData && (
+              <Tooltip
+                formatter={(value?: number) => `$${value ?? 0}`}
+                contentStyle={{
+                  backgroundColor: `#0f172a`,
+                  border: "1px solid #1e293b",
+                  borderRadius: "8px",
+                  color: "#fff",
+                }}
+                itemStyle={{ color: "#fff" }}
+              />
+            )}
             <Legend verticalAlign="bottom" height={36} iconType="circle" />
           </PieChart>
         </ResponsiveContainer>

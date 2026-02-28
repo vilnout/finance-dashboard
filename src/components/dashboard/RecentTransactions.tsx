@@ -22,15 +22,17 @@ export const RecentTransactions = () => {
           View all
         </Link>
       </div>
-      <div className="space-y-1">
-        {sortedTransactions.length === 0 ? (
-          <p>No Transactions yet</p>
-        ) : (
-          sortedTransactions.map((transaction) => (
+      {sortedTransactions.length === 0 ? (
+        <p className="flex grow items-center justify-center p-8 text-slate-400">
+          No Transactions yet
+        </p>
+      ) : (
+        <div className="space-y-1">
+          {sortedTransactions.map((transaction) => (
             <TransactionItem key={transaction.id} transaction={transaction} />
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
