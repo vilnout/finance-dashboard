@@ -63,7 +63,7 @@ function App() {
             },
             {
               path: ROUTES.BUDGETS.slice(1),
-              element: <Budgets />,
+              element: <Budgets isLoading={isLoading} />,
             },
           ],
         },
