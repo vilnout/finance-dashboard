@@ -14,6 +14,7 @@ import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
 import { aggregrateTransactions } from "../utils/transactions";
 import { useMemo } from "react";
 import { getMonthlyStats } from "../utils/monthlyStats";
+import { WithSkeleton } from "../components/ui/WithSkeleton";
 
 type DashBoardProps = {
   setIsModalOpen: (value: boolean) => void;
@@ -28,55 +29,55 @@ export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
       return getMonthlyStats(transactions);
     }, [transactions]);
 
-  return isLoading ? (
-    <DashboardSkeleton />
-  ) : (
-    <>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-white-500 text-2xl font-bold">Dashboard</h2>
-          <AddTransactionButton onClick={() => setIsModalOpen(true)} />
-        </div>
-        <p>Overview of your Financial Health</p>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="my-4 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          <StatCard
-            title="Total Balance"
-            value={totalBalance}
-            icon={Wallet}
-            color="text-blue-500"
-          />
-          <StatCard
-            title="Income"
-            value={monthlyIncome}
-            icon={ArrowUpCircle}
-            color="text-emerald-500"
-          />
-          <StatCard
-            title="Expenses"
-            value={monthlyExpenses}
-            icon={ArrowDownCircle}
-            color="text-rose-500"
-          />
-          <StatCard
-            title="Savings Rate"
-            value={savingsRate}
-            icon={PercentCircle}
-            color="text-yellow-500"
-            format="percentage"
-          />
-        </div>
-        <TrendChart data={data} />
-        <div className="grid-col1 grid gap-4 md:gap-2 lg:grid-cols-2">
-          <div className="min-h-20 rounded-lg border border-slate-800">
-            <RecentTransactions />
+  return (
+    <WithSkeleton isLoading={isLoading} skeleton={<DashboardSkeleton />}>
+      <>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-white-500 text-2xl font-bold">Dashboard</h2>
+            <AddTransactionButton onClick={() => setIsModalOpen(true)} />
           </div>
-          <div className="min-h-20 rounded-lg border border-slate-800">
-            <CategoryChart />
+          <p>Overview of your Financial Health</p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="my-4 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+            <StatCard
+              title="Total Balance"
+              value={totalBalance}
+              icon={Wallet}
+              color="text-blue-500"
+            />
+            <StatCard
+              title="Income"
+              value={monthlyIncome}
+              icon={ArrowUpCircle}
+              color="text-emerald-500"
+            />
+            <StatCard
+              title="Expenses"
+              value={monthlyExpenses}
+              icon={ArrowDownCircle}
+              color="text-rose-500"
+            />
+            <StatCard
+              title="Savings Rate"
+              value={savingsRate}
+              icon={PercentCircle}
+              color="text-yellow-500"
+              format="percentage"
+            />
+          </div>
+          <TrendChart data={data} />
+          <div className="grid-col1 grid gap-4 md:gap-2 lg:grid-cols-2">
+            <div className="min-h-20 rounded-lg border border-slate-800">
+              <RecentTransactions />
+            </div>
+            <div className="min-h-20 rounded-lg border border-slate-800">
+              <CategoryChart />
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </>
+    </WithSkeleton>
   );
 };
