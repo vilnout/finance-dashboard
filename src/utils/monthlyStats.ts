@@ -14,7 +14,8 @@ export const getMonthlyStats = (transactions: Transaction[]) => {
   });
 
   const monthlySavings = monthlyIncome - monthlyExpenses;
-  const savingsRate = Math.round((monthlySavings / monthlyIncome) * 100);
+  const savingsRate =
+    monthlySavings > 0 ? Math.round((monthlySavings / monthlyIncome) * 100) : 0;
 
   return { totalBalance, monthlyIncome, monthlyExpenses, savingsRate };
 };
