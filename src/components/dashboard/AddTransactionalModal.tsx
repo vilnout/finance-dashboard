@@ -1,10 +1,12 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { X } from "lucide-react";
+import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import * as z from "zod";
 import { useFinanceStore } from "../../store/useFinanceStore";
-import { Input, baseStyles } from "../ui/Input";
 import { useToastStore } from "../../store/useToastStore";
+import { expenseCategories } from "../transaction/categoryConfig";
+import { Input, baseStyles } from "../ui/Input";
 
 const transactionSchema = z.object({
   description: z.string().min(3, "Description is too short"),
@@ -39,15 +41,29 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
     register,
     handleSubmit,
     reset,
+    control,
+    setValue,
     formState: { errors },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
       type: "expense",
-      category: "Food",
+      category: expenseCategories[0],
       date: new Date().toISOString().split("T")[0],
     },
   });
+
+  const selectedType = useWatch({ control, name: "type" });
+  const selectFields =
+    selectedType === "income" ? ["Income"] : expenseCategories;
+
+  useEffect(() => {
+    if (selectedType === "income") {
+      setValue("category", "Income");
+    } else {
+      setValue("category", expenseCategories[0]);
+    }
+  }, [selectedType, setValue]);
 
   const onSubmit = (data: TransactionFormData) => {
     const finalAmount =
@@ -128,13 +144,16 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Category</label>
-              <select {...register("category")} className={baseStyles}>
-                <option value="Food">Food</option>
-                <option value="Housing">Housing</option>
-                <option value="Transport">Transport</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Other">Other</option>
+              <select
+                {...register("category")}
+                className={`${baseStyles} disabled:opacity-50`}
+                disabled={selectedType === "income"}
+              >
+                {selectFields.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
