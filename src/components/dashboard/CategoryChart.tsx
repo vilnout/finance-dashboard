@@ -68,7 +68,9 @@ export const CategoryChart = () => {
             </Pie>
             {hasData && (
               <Tooltip
-                formatter={(value?: number) => `$${value ?? 0}`}
+                formatter={(value?: number) =>
+                  `$${value ? Math.round(value).toLocaleString() : 0}`
+                }
                 contentStyle={{
                   backgroundColor: `#0f172a`,
                   border: "1px solid #1e293b",

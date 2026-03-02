@@ -16,6 +16,8 @@ type TrendChartProps = {
 
 export const TrendChart = memo(({ data }: TrendChartProps) => {
   const hasData = data && data.length > 0;
+  const incomeColor = "#22c55e";
+  const expenseColor = "#dc2626";
 
   const chartData: GroupedTransactions[] = hasData
     ? data
@@ -26,22 +28,19 @@ export const TrendChart = memo(({ data }: TrendChartProps) => {
       <ResponsiveContainer width="99%" height="80%">
         <AreaChart data={chartData}>
           <defs>
-            <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+            <linearGradient id="income" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={incomeColor} stopOpacity={0.3} />
+              <stop offset="95%" stopColor={incomeColor} stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="expenses" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={expenseColor} stopOpacity={0.5} />
+              <stop offset="95%" stopColor={expenseColor} stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid
             strokeDasharray="3 3"
             stroke="#1e293b"
             vertical={false}
-          />
-          <XAxis
-            dataKey="date"
-            stroke="#64748b"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
           />
           <YAxis
             stroke="#64748b"
@@ -50,23 +49,52 @@ export const TrendChart = memo(({ data }: TrendChartProps) => {
             axisLine={false}
             tickFormatter={(value) => `$${value}`}
           />
+          <XAxis
+            dataKey="date"
+            stroke="#64748b"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+          />
           <Tooltip
             contentStyle={{
               backgroundColor: "#0f172a",
               border: "1px solid #1e29eb",
               borderRadius: "8px",
             }}
-            itemStyle={{ color: "#3b82f6" }}
+            formatter={(value, name) => {
+              let color: string;
+              if (name === "income") {
+                color = incomeColor;
+              } else if (name == "expenses") {
+                color = expenseColor;
+              } else {
+                color = "#3b82f6";
+              }
+              return [value, name, color];
+            }}
           />
           {hasData ? (
-            <Area
-              type="monotone"
-              dataKey="balance"
-              stroke="#3b82f6"
-              strokeWidth={3}
-              fillOpacity={1}
-              fill="url(#colorAmount)"
-            />
+            <>
+              <Area
+                type="monotone"
+                dataKey="expenses"
+                name="Expenses"
+                stroke={expenseColor}
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#expenses)"
+              />
+              <Area
+                type="monotone"
+                dataKey="income"
+                name="Income"
+                stroke={incomeColor}
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#income)"
+              />
+            </>
           ) : (
             <text
               x="50%"

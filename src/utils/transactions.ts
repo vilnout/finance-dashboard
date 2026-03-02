@@ -18,16 +18,17 @@ export const aggregrateTransactions = (
   transactions: Transaction[],
 ): GroupedTransactions[] => {
   const acc = transactions.reduce<AccTransactions>((acc, tnx) => {
-    const date = new Date(tnx.date).toLocaleDateString();
+    const date = new Date(tnx.date);
+    const yearMonth = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 
-    if (!acc[date]) {
-      acc[date] = { income: 0, expense: 0 };
+    if (!acc[yearMonth]) {
+      acc[yearMonth] = { income: 0, expense: 0 };
     }
 
     if (tnx.amount > 0) {
-      acc[date].income += tnx.amount;
+      acc[yearMonth].income += Math.round(tnx.amount);
     } else {
-      acc[date].expense += Math.abs(tnx.amount);
+      acc[yearMonth].expense += Math.round(Math.abs(tnx.amount));
     }
 
     return acc;
