@@ -9,7 +9,9 @@ export const timeAgo = (pastDate: Date) => {
     return "Today";
   } else if (diffDays === 1) {
     return "Yesterday";
-  } else {
+  } else if (diffDays > 0) {
     return `${diffDays} days ago`;
+  } else {
+    return `In ${Math.abs(diffDays)} days`;
   }
 };
