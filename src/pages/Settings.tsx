@@ -1,5 +1,6 @@
 import { AlertTriangle, Globe, Save } from "lucide-react";
 import { useState } from "react";
+import { currencyConfig } from "../components/transaction/currencyConfig";
 import { useFinanceStore } from "../store/useFinanceStore";
 import { useToastStore } from "../store/useToastStore";
 
@@ -54,12 +55,11 @@ export const Settings = () => {
             onChange={(e) => setCurrencyInput(e.target.value)}
             className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
-            <option value="USD">USD ($) - US Dollar</option>
-            <option value="INR">INR (₹) - Indian Rupee</option>
-            <option value="EUR">EUR (€) - Euro</option>
-            <option value="GBP">GBP (£) - British Pound</option>
-            <option value="JPY">JPY (¥) - Japanese Yen</option>
-            <option value="SEK">SEK (kr) - Swedish Krona</option>
+            {Object.entries(currencyConfig).map(([k, v]) => (
+              <option key={k} value={k}>
+                {v}
+              </option>
+            ))}
           </select>
           <button
             onClick={handleSavePreferences}

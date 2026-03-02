@@ -2,6 +2,7 @@ import {
   transactionFormCategories,
   type categoryConfig,
 } from "../components/transaction/categoryConfig";
+import type { currencyConfig } from "../components/transaction/currencyConfig";
 
 export type Category = keyof typeof categoryConfig;
 
@@ -38,3 +39,5 @@ export interface BudgetProgress extends Budget {
 }
 
 export type ToastType = "success" | "error" | "info";
+
+export type Currency = keyof typeof currencyConfig;
