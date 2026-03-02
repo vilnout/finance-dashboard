@@ -1,4 +1,5 @@
 import type { Transaction } from "../../types";
+import { timeAgo } from "../../utils/transactionItems";
 import { categoryConfig } from "../transaction/categoryConfig";
 
 interface TransactionItemProps {
@@ -25,8 +26,11 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           >
             {transaction.description}
           </p>
-          <span className="text-xs text-slate-400">
-            {new Date(transaction.date).toLocaleDateString()}
+          <span
+            className="text-xs text-slate-400"
+            title={new Date(transaction.date).toLocaleDateString()}
+          >
+            {timeAgo(transaction.date)}
           </span>
         </div>
       </div>
