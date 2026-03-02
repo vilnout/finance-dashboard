@@ -69,7 +69,7 @@ export const CategoryChart = () => {
             {hasData && (
               <Tooltip
                 formatter={(value?: number) =>
-                  `$${value ? Math.round(value) : 0}`
+                  `$${value ? Math.round(value).toLocaleString() : 0}`
                 }
                 contentStyle={{
                   backgroundColor: `#0f172a`,
