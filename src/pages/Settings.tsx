@@ -21,7 +21,7 @@ export const Settings = () => {
   const handleReset = () => {
     if (
       window.confirm(
-        "Are you sure? This will deleted all transactiona and budgets. This cannot be undone.",
+        "Are you sure? This will deleted all transactions and budgets. This cannot be undone.",
       )
     ) {
       resetAllData();
