@@ -1,18 +1,18 @@
-import MainLayout from "./components/layout/MainLayout";
 import { useEffect, useState } from "react";
-import { AddTransactionModal } from "./components/dashboard/AddTransactionalModal";
-import { DashBoard } from "./pages/DashBoard";
 import {
   createBrowserRouter,
-  RouterProvider,
   Navigate,
+  RouterProvider,
 } from "react-router-dom";
-import { ROUTES } from "./routes/routes";
-import { NotFoundPage } from "./pages/NotFoundPage";
-import { Budgets } from "./pages/Budgets";
-import { Login } from "./pages/Login";
+import { AddTransactionModal } from "./components/dashboard/AddTransactionalModal";
+import MainLayout from "./components/layout/MainLayout";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import { Budgets } from "./pages/Budgets";
+import { DashBoard } from "./pages/DashBoard";
+import { Login } from "./pages/Login";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { Transactions } from "./pages/Transactions";
+import { ROUTES } from "./routes/routes";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,20 +1,20 @@
-import { useFinanceStore } from "../store/useFinanceStore";
-import { StatCard } from "../components/dashboard/StatCard";
 import {
   ArrowDownCircle,
   ArrowUpCircle,
   PercentCircle,
   Wallet,
 } from "lucide-react";
-import { TrendChart } from "../components/dashboard/TrendChart";
-import { RecentTransactions } from "../components/dashboard/RecentTransactions";
-import { CategoryChart } from "../components/dashboard/CategoryChart";
-import { AddTransactionButton } from "../components/ui/AddTransactionButton";
-import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
-import { aggregrateTransactions } from "../utils/transactions";
 import { useMemo } from "react";
-import { getMonthlyStats } from "../utils/monthlyStats";
+import { CategoryChart } from "../components/dashboard/CategoryChart";
+import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
+import { RecentTransactions } from "../components/dashboard/RecentTransactions";
+import { StatCard } from "../components/dashboard/StatCard";
+import { TrendChart } from "../components/dashboard/TrendChart";
+import { AddTransactionButton } from "../components/ui/AddTransactionButton";
 import { WithSkeleton } from "../components/ui/WithSkeleton";
+import { useFinanceStore } from "../store/useFinanceStore";
+import { getMonthlyStats } from "../utils/monthlyStats";
+import { aggregrateTransactions } from "../utils/transactions";
 
 type DashBoardProps = {
   setIsModalOpen: (value: boolean) => void;

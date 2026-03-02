@@ -1,6 +1,6 @@
+import { MoreVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { BudgetProgress } from "../../types";
-import { MoreVertical, Pencil, Trash2 } from "lucide-react";
 
 type BudgetEditMenuProps = {
   budget: BudgetProgress;

@@ -1,10 +1,10 @@
+import { Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useFinanceStore } from "../../store/useFinanceStore";
-import { Search, Trash2 } from "lucide-react";
-import { AddTransactionButton } from "../ui/AddTransactionButton";
 import { useToastStore } from "../../store/useToastStore";
-import { filterTransactions } from "../../utils/transactions";
 import type { TransactionFormCategory } from "../../types";
+import { filterTransactions } from "../../utils/transactions";
+import { AddTransactionButton } from "../ui/AddTransactionButton";
 import { transactionFormCategories } from "./categoryConfig";
 
 const baseStyles =

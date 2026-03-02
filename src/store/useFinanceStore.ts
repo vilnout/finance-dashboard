@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Transaction, Budget } from "../types";
+import type { Budget, Transaction } from "../types";
 
 interface FinanceStore {
   transactions: Transaction[];

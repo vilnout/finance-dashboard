@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import * as z from "zod";
-import { useAuthStore } from "../store/useAuthStore";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ROUTES } from "../routes/routes";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import * as z from "zod";
 import { Input } from "../components/ui/Input";
+import { ROUTES } from "../routes/routes";
+import { useAuthStore } from "../store/useAuthStore";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),

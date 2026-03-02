@@ -1,7 +1,7 @@
-import SideBar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "../ui/ToastContainer";
 import { MobileNav } from "./MobileNav";
+import SideBar from "./Sidebar";
 
 function MainLayout() {
   return (

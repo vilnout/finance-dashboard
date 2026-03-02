@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
-import { navItems } from "./navConfig";
 import { NavLink } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
+import { navItems } from "./navConfig";
 
 function SideBar() {
   const logout = useAuthStore((state) => state.logout);

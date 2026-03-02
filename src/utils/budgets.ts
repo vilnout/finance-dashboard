@@ -1,4 +1,4 @@
-import type { Budget, Transaction, Category, BudgetProgress } from "../types";
+import type { Budget, BudgetProgress, Category, Transaction } from "../types";
 import { groupTransactionsByMonth } from "./transactions";
 
 export const getBudgetProgress = (
