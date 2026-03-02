@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { MOCK_BUDGETS, MOCK_TRANSACTIONS } from "../data/mockData";
 import type { Budget, Transaction } from "../types";
 
 interface FinanceStore {
@@ -14,51 +15,6 @@ interface FinanceStore {
   deleteBudget: (id: string) => void;
   setCurrentMonth: (date: Date) => void;
 }
-
-const MOCK_TRANSACTIONS: Transaction[] = [
-  {
-    id: "1",
-    date: new Date(2026, 1, 20),
-    amount: 5000,
-    description: "Salary",
-    category: "Income",
-  },
-  {
-    id: "2",
-    date: new Date(2026, 1, 22),
-    amount: -1600,
-    description: "Rent",
-    category: "Housing",
-  },
-  {
-    id: "3",
-    date: new Date(2026, 1, 24),
-    amount: 5000,
-    description: "Grocery Run",
-    category: "Food",
-  },
-  {
-    id: "4",
-    date: new Date(2026, 1, 26),
-    amount: -200,
-    description: "Food",
-    category: "Food",
-  },
-  {
-    id: "5",
-    date: new Date(2026, 1, 28),
-    amount: -301,
-    description: "Movies",
-    category: "Entertainment",
-  },
-];
-
-const MOCK_BUDGETS: Budget[] = [
-  { id: "b1", category: "Food", limit: 800 },
-  { id: "b2", category: "Housing", limit: 2000 },
-  { id: "b3", category: "Transport", limit: 400 },
-  { id: "b4", category: "Entertainment", limit: 300 },
-];
 
 export const useFinanceStore = create<FinanceStore>((set) => ({
   transactions: MOCK_TRANSACTIONS,
