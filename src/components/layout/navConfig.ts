@@ -1,9 +1,9 @@
 import {
-  LayoutDashboard,
-  Receipt,
   BarChart3,
-  Settings,
+  LayoutDashboard,
   PieChart,
+  Receipt,
+  Settings,
 } from "lucide-react";
 import { ROUTES } from "../../routes/routes";
 

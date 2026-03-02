@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../routes/routes";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { TransactionItem } from "./TransactionItem";
-import { ROUTES } from "../../routes/routes";
 
 export const RecentTransactions = () => {
   const transactions = useFinanceStore((state) => state.transactions);

@@ -1,15 +1,15 @@
 import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
   Cell,
   Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
   Tooltip,
 } from "recharts";
 import { useFinanceStore } from "../../store/useFinanceStore";
-import { categoryConfig } from "../transaction/categoryConfig";
 import type { Category } from "../../types";
 import { isCategoryName } from "../../types/category";
+import { categoryConfig } from "../transaction/categoryConfig";
 
 export const CategoryChart = () => {
   const transactions = useFinanceStore((state) => state.transactions);

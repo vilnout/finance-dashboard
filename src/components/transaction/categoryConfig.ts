@@ -1,13 +1,13 @@
 import {
-  House,
-  Utensils,
-  Car,
-  UtilityPole,
-  Film,
-  Coins,
-  ChevronsLeftRight,
-  ListChevronsUpDown,
   BanknoteArrowDown,
+  Car,
+  ChevronsLeftRight,
+  Coins,
+  Film,
+  House,
+  ListChevronsUpDown,
+  Utensils,
+  UtilityPole,
 } from "lucide-react";
 
 import type { LucideIcon } from "lucide-react";
