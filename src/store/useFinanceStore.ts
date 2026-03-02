@@ -6,6 +6,7 @@ interface FinanceStore {
   transactions: Transaction[];
   budgets: Budget[];
   currentMonth: Date;
+  currency: string;
 
   addTransaction: (transaction: Transaction) => void;
   removeTransaction: (id: string) => void;
@@ -14,12 +15,23 @@ interface FinanceStore {
   updateBudget: (id: string, limit: number) => void;
   deleteBudget: (id: string) => void;
   setCurrentMonth: (date: Date) => void;
+
+  setCurrency: (currency: string) => void;
+  resetAllData: () => void;
 }
 
 export const useFinanceStore = create<FinanceStore>((set) => ({
   transactions: MOCK_TRANSACTIONS,
   budgets: MOCK_BUDGETS,
   currentMonth: new Date(),
+  currency: "USD",
+
+  setCurrency: (currency) => set({ currency }),
+  resetAllData: () =>
+    set({
+      transactions: [],
+      budgets: [],
+    }),
 
   setCurrentMonth: (date) => set({ currentMonth: date }),
 

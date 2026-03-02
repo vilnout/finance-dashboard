@@ -11,6 +11,7 @@ import { Budgets } from "./pages/Budgets";
 import { DashBoard } from "./pages/DashBoard";
 import { Login } from "./pages/Login";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { Settings } from "./pages/Settings";
 import { Transactions } from "./pages/Transactions";
 import { ROUTES } from "./routes/routes";
 
@@ -64,6 +65,10 @@ function App() {
             {
               path: ROUTES.BUDGETS.slice(1),
               element: <Budgets isLoading={isLoading} />,
+            },
+            {
+              path: ROUTES.SETTINGS.slice(1),
+              element: <Settings />,
             },
           ],
         },
