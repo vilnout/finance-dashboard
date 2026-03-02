@@ -18,6 +18,7 @@ export const Budgets = ({ isLoading }: BudgetsProps) => {
   const transactions = useFinanceStore((state) => state.transactions);
   const budgets = useFinanceStore((state) => state.budgets);
   const currentMonth = useFinanceStore((state) => state.currentMonth);
+  const currency = useFinanceStore((state) => state.currency);
   const addToast = useToastStore((state) => state.addToast);
 
   const budgetProgress = useMemo(() => {
@@ -78,7 +79,12 @@ export const Budgets = ({ isLoading }: BudgetsProps) => {
         {hasBudgets ? (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {budgetProgress.map((budget) => (
-              <BudgetCard key={budget.id} budget={budget} onEdit={handleEdit} />
+              <BudgetCard
+                key={budget.id}
+                budget={budget}
+                onEdit={handleEdit}
+                currency={currency}
+              />
             ))}
           </div>
         ) : (

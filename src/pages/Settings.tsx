@@ -3,6 +3,7 @@ import { useState } from "react";
 import { currencyConfig } from "../components/transaction/currencyConfig";
 import { useFinanceStore } from "../store/useFinanceStore";
 import { useToastStore } from "../store/useToastStore";
+import type { Currency } from "../types";
 
 export const Settings = () => {
   const currency = useFinanceStore((state) => state.currency);
@@ -52,12 +53,12 @@ export const Settings = () => {
           </label>
           <select
             value={currencyInput}
-            onChange={(e) => setCurrencyInput(e.target.value)}
+            onChange={(e) => setCurrencyInput(e.target.value as Currency)}
             className="w-full rounded-lg border border-slate-800 bg-slate-950 px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             {Object.entries(currencyConfig).map(([k, v]) => (
               <option key={k} value={k}>
-                {v}
+                {v.label}
               </option>
             ))}
           </select>

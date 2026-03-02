@@ -6,13 +6,20 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { useFinanceStore } from "../../store/useFinanceStore";
-import type { Category } from "../../types";
+import type { Category, Currency, Transaction } from "../../types";
 import { isCategoryName } from "../../types/category";
+import { formatMoney } from "../../utils/transactions";
 import { categoryConfig } from "../transaction/categoryConfig";
 
-export const CategoryChart = () => {
-  const transactions = useFinanceStore((state) => state.transactions);
+interface CategoryChartProps {
+  transactions: Transaction[];
+  currency: Currency;
+}
+
+export const CategoryChart = ({
+  transactions,
+  currency,
+}: CategoryChartProps) => {
   const expenses = transactions.filter((tnx) => tnx.amount < 0);
   const categoryTotals = expenses.reduce(
     (acc, curr) => {
@@ -69,7 +76,7 @@ export const CategoryChart = () => {
             {hasData && (
               <Tooltip
                 formatter={(value?: number) =>
-                  `$${value ? Math.round(value).toLocaleString() : 0}`
+                  `${formatMoney(value ?? 0, currency)}`
                 }
                 contentStyle={{
                   backgroundColor: `#0f172a`,

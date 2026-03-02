@@ -1,12 +1,17 @@
-import type { Transaction } from "../../types";
+import type { Currency, Transaction } from "../../types";
 import { timeAgo } from "../../utils/transactionItems";
+import { formatMoney } from "../../utils/transactions";
 import { categoryConfig } from "../transaction/categoryConfig";
 
 interface TransactionItemProps {
   transaction: Transaction;
+  currency: Currency;
 }
 
-export const TransactionItem = ({ transaction }: TransactionItemProps) => {
+export const TransactionItem = ({
+  transaction,
+  currency,
+}: TransactionItemProps) => {
   const Icon = categoryConfig[transaction.category].icon;
   const iconColor = categoryConfig[transaction.category].color;
   const isExpense = transaction.amount < 0;
@@ -44,11 +49,7 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
         <div
           className={`font-semibold ${isExpense ? "text-rose-400" : "text-emerald-400"} justify-self-end`}
         >
-          {isExpense ? "-" : "+"}
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(Math.abs(transaction.amount))}
+          {formatMoney(transaction.amount, currency)}
         </div>
       </div>
     </div>

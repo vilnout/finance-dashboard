@@ -23,6 +23,7 @@ type DashBoardProps = {
 
 export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
   const transactions = useFinanceStore((state) => state.transactions);
+  const currency = useFinanceStore((state) => state.currency);
   const data = aggregrateTransactions(transactions);
   const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
     useMemo(() => {
@@ -44,36 +45,43 @@ export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
             <StatCard
               title="Total Balance"
               value={totalBalance}
+              currency={currency}
               icon={Wallet}
               color="text-blue-500"
             />
             <StatCard
               title="Income"
               value={monthlyIncome}
+              currency={currency}
               icon={ArrowUpCircle}
               color="text-emerald-500"
             />
             <StatCard
               title="Expenses"
               value={monthlyExpenses}
+              currency={currency}
               icon={ArrowDownCircle}
               color="text-rose-500"
             />
             <StatCard
               title="Savings Rate"
               value={savingsRate}
+              currency={currency}
               icon={PercentCircle}
               color="text-yellow-500"
               format="percentage"
             />
           </div>
-          <TrendChart data={data} />
+          <TrendChart data={data} currency={currency} />
           <div className="grid-col1 grid gap-4 md:gap-2 lg:grid-cols-2">
             <div className="min-h-20 rounded-lg border border-slate-800">
-              <RecentTransactions />
+              <RecentTransactions
+                transactions={transactions}
+                currency={currency}
+              />
             </div>
             <div className="min-h-20 rounded-lg border border-slate-800">
-              <CategoryChart />
+              <CategoryChart transactions={transactions} currency={currency} />
             </div>
           </div>
         </div>

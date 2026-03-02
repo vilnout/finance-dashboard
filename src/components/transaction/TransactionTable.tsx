@@ -2,8 +2,12 @@ import { Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { useToastStore } from "../../store/useToastStore";
-import type { TransactionFormCategory } from "../../types";
-import { filterTransactions } from "../../utils/transactions";
+import type {
+  Currency,
+  Transaction,
+  TransactionFormCategory,
+} from "../../types";
+import { filterTransactions, formatMoney } from "../../utils/transactions";
 import { AddTransactionButton } from "../ui/AddTransactionButton";
 import { transactionFormCategories } from "./categoryConfig";
 
@@ -11,12 +15,16 @@ const baseStyles =
   "rounded-lg border border-slate-800 bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none";
 
 type TransactionTableProps = {
+  transactions: Transaction[];
+  currency: Currency;
   setIsModalOpen?: (value: boolean) => void;
   category?: TransactionFormCategory;
   showAddButton: boolean;
 };
 
 export const TransactionTable = ({
+  transactions,
+  currency,
   setIsModalOpen,
   category = "All Categories",
   showAddButton,
@@ -24,7 +32,6 @@ export const TransactionTable = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState(category);
 
-  const transactions = useFinanceStore((state) => state.transactions);
   const removeTransaction = useFinanceStore((state) => state.removeTransaction);
   const addToast = useToastStore((state) => state.addToast);
   const filteredTransactions = filterTransactions(
@@ -115,7 +122,7 @@ export const TransactionTable = ({
                   <span className="font-semibold text-white md:hidden">
                     Amount:{" "}
                   </span>
-                  {t.amount < 0 ? "-" : "+"}${Math.abs(t.amount).toFixed(2)}
+                  {formatMoney(t.amount, currency)}
                 </td>
                 <td className="block p-2 px-6 text-right md:table-cell md:pl-8 md:text-left">
                   <button

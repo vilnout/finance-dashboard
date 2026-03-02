@@ -1,4 +1,4 @@
-import type { Transaction, TransactionFormCategory } from "../types";
+import type { Currency, Transaction, TransactionFormCategory } from "../types";
 
 interface AccTransactions {
   [name: string]: {
@@ -80,4 +80,17 @@ export const filterTransactions = (
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+};
+
+export const formatMoney = (
+  value: number,
+  currency: Currency,
+  locale?: string,
+) => {
+  const resolvedLocale =
+    locale ?? (typeof navigator !== "undefined" ? navigator.language : "en-US");
+  return new Intl.NumberFormat(resolvedLocale, {
+    style: "currency",
+    currency,
+  }).format(value);
 };
