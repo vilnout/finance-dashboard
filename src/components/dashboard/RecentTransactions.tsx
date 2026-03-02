@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../routes/routes";
-import { useFinanceStore } from "../../store/useFinanceStore";
+import type { Currency, Transaction } from "../../types";
 import { TransactionItem } from "./TransactionItem";
 
-export const RecentTransactions = () => {
-  const transactions = useFinanceStore((state) => state.transactions);
+interface RecentTransactionsProps {
+  transactions: Transaction[];
+  currency: Currency;
+}
+
+export const RecentTransactions = ({
+  transactions,
+  currency,
+}: RecentTransactionsProps) => {
   const sortedTransactions = transactions
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5);
@@ -29,7 +36,11 @@ export const RecentTransactions = () => {
       ) : (
         <div className="space-y-1">
           {sortedTransactions.map((transaction) => (
-            <TransactionItem key={transaction.id} transaction={transaction} />
+            <TransactionItem
+              key={transaction.id}
+              transaction={transaction}
+              currency={currency}
+            />
           ))}
         </div>
       )}

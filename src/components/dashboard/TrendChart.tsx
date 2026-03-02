@@ -8,16 +8,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { Currency } from "../../types";
 import type { GroupedTransactions } from "../../utils/transactions";
+import { currencyConfig } from "../transaction/currencyConfig";
 
 type TrendChartProps = {
   data: GroupedTransactions[];
+  currency: Currency;
 };
 
-export const TrendChart = memo(({ data }: TrendChartProps) => {
+export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
   const hasData = data && data.length > 0;
   const incomeColor = "#22c55e";
   const expenseColor = "#dc2626";
+  const currencySymbol = currencyConfig[currency].symbol;
 
   const chartData: GroupedTransactions[] = hasData
     ? data
@@ -47,7 +51,7 @@ export const TrendChart = memo(({ data }: TrendChartProps) => {
             fontSize={12}
             tickLine={false}
             axisLine={false}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `${currencySymbol}${value}`}
           />
           <XAxis
             dataKey="date"

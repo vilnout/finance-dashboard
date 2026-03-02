@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { MOCK_BUDGETS, MOCK_TRANSACTIONS } from "../data/mockData";
-import type { Budget, Transaction } from "../types";
+import type { Budget, Currency, Transaction } from "../types";
 
 interface FinanceStore {
   transactions: Transaction[];
   budgets: Budget[];
   currentMonth: Date;
+  currency: Currency;
 
   addTransaction: (transaction: Transaction) => void;
   removeTransaction: (id: string) => void;
@@ -14,12 +15,23 @@ interface FinanceStore {
   updateBudget: (id: string, limit: number) => void;
   deleteBudget: (id: string) => void;
   setCurrentMonth: (date: Date) => void;
+
+  setCurrency: (currency: Currency) => void;
+  resetAllData: () => void;
 }
 
 export const useFinanceStore = create<FinanceStore>((set) => ({
   transactions: MOCK_TRANSACTIONS,
   budgets: MOCK_BUDGETS,
   currentMonth: new Date(),
+  currency: "USD",
+
+  setCurrency: (currency) => set({ currency }),
+  resetAllData: () =>
+    set({
+      transactions: [],
+      budgets: [],
+    }),
 
   setCurrentMonth: (date) => set({ currentMonth: date }),
 

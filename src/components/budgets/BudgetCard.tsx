@@ -1,23 +1,19 @@
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { useToastStore } from "../../store/useToastStore";
-import { type Budget, type BudgetProgress } from "../../types";
+import { type Budget, type BudgetProgress, type Currency } from "../../types";
+import { formatMoney } from "../../utils/transactions";
 import { categoryConfig } from "../transaction/categoryConfig";
 import { BudgetEditMenu } from "./BudgetEditMenu";
 
 interface BudgetCardProps {
   budget: BudgetProgress;
+  currency: Currency;
   onEdit: (budget: Budget) => void;
 }
 
-export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
+export const BudgetCard = ({ budget, currency, onEdit }: BudgetCardProps) => {
   const deleteBudget = useFinanceStore((state) => state.deleteBudget);
   const addToast = useToastStore((state) => state.addToast);
-
-  const formatMoney = (amount: number) =>
-    new Intl.NumberFormat("en-us", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount);
 
   const Icon = categoryConfig[budget.category].icon;
   const iconColor = categoryConfig[budget.category].color;
@@ -49,7 +45,7 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
         <div className="flex flex-row-reverse items-center gap-2">
           <BudgetEditMenu budget={budget} onEdit={onEdit} onDelete={onDelete} />
           <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-xs font-medium text-slate-400">
-            {formatMoney(budget.limit)} limit
+            {formatMoney(budget.limit, currency)} limit
           </span>
         </div>
       </div>
@@ -57,14 +53,14 @@ export const BudgetCard = ({ budget, onEdit }: BudgetCardProps) => {
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
           <span className="font-medium text-slate-100">
-            {formatMoney(budget.spent)} spent
+            {formatMoney(budget.spent, currency)} spent
           </span>
           <span
             className={`${budget.remaining < 0 ? "text-rose-500" : "text-slate-400"}`}
           >
             {budget.remaining < 0
               ? "Over Budget"
-              : `${formatMoney(budget.remaining)} left`}
+              : `${formatMoney(budget.remaining, currency)} left`}
           </span>
         </div>
         <div className="h-3 w-full overflow-hidden rounded-full bg-slate-800">
