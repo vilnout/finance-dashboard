@@ -11,3 +11,7 @@
     display: none;
   }
 }
+
+@utility skeleton {
+  @apply animate-pulse rounded-lg bg-slate-800;
+}
