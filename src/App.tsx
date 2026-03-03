@@ -68,7 +68,7 @@ function App() {
             },
             {
               path: ROUTES.SETTINGS.slice(1),
-              element: <Settings />,
+              element: <Settings isLoading={isLoading} />,
             },
           ],
         },
