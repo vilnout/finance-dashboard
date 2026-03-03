@@ -1,9 +1,10 @@
-import { AlertTriangle, Globe, Save } from "lucide-react";
+import { AlertTriangle, Globe, LogOut, Save } from "lucide-react";
 import { useState } from "react";
 import { SettingsSkeleton } from "../components/Settings/SettingsSkeleton";
 import { currencyConfig } from "../components/transaction/currencyConfig";
 import { ConfirmDialog } from "../components/ui/ConfirmDialog";
 import { WithSkeleton } from "../components/ui/WithSkeleton";
+import { useAuthStore } from "../store/useAuthStore";
 import { useFinanceStore } from "../store/useFinanceStore";
 import { useToastStore } from "../store/useToastStore";
 import type { Currency } from "../types";
@@ -17,6 +18,7 @@ export const Settings = ({ isLoading }: SettingsProps) => {
   const setCurrency = useFinanceStore((state) => state.setCurrency);
   const resetAllData = useFinanceStore((state) => state.resetAllData);
   const addToast = useToastStore((state) => state.addToast);
+  const logout = useAuthStore((state) => state.logout);
 
   const [currencyInput, setCurrencyInput] = useState(currency);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
@@ -93,6 +95,17 @@ export const Settings = ({ isLoading }: SettingsProps) => {
             Reset All Data
           </button>
         </div>
+
+        <div className="mt-8 flex justify-center border-t border-slate-800 pt-8 sm:justify-start">
+          <button
+            onClick={logout}
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-slate-800 px-6 py-3 font-medium text-white transition-colors hover:bg-slate-700 sm:w-auto"
+          >
+            <LogOut size={20} />
+            Sign Out
+          </button>
+        </div>
+
         <ConfirmDialog
           isOpen={isResetModalOpen}
           onClose={() => setIsResetModalOpen(false)}
