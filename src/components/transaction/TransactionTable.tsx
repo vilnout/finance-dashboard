@@ -1,13 +1,6 @@
 import { Search, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { useFinanceStore } from "../../store/useFinanceStore";
-import { useToastStore } from "../../store/useToastStore";
-import type {
-  Currency,
-  Transaction,
-  TransactionFormCategory,
-} from "../../types";
-import { filterTransactions, formatMoney } from "../../utils/transactions";
+import type { Currency, Transaction } from "../../types";
+import { formatMoney } from "../../utils/transactions";
 import { AddTransactionButton } from "../ui/AddTransactionButton";
 import { transactionFormCategories } from "./categoryConfig";
 
@@ -16,35 +9,31 @@ const baseStyles =
 
 type TransactionTableProps = {
   transactions: Transaction[];
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  typeFilter: string;
+  onTypeChange: (value: string) => void;
+  categoryFilter: string;
+  onCategoryChange: (value: string) => void;
   currency: Currency;
+  onDelete: (id: string) => void;
   setIsModalOpen?: (value: boolean) => void;
-  category?: TransactionFormCategory;
   showAddButton: boolean;
 };
 
 export const TransactionTable = ({
   transactions,
+  searchTerm,
+  onSearchChange,
+  typeFilter,
+  onTypeChange,
+  categoryFilter,
+  onCategoryChange,
   currency,
+  onDelete,
   setIsModalOpen,
-  category = "All Categories",
   showAddButton,
 }: TransactionTableProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState(category);
-
-  const removeTransaction = useFinanceStore((state) => state.removeTransaction);
-  const addToast = useToastStore((state) => state.addToast);
-  const filteredTransactions = filterTransactions(
-    searchTerm,
-    categoryFilter,
-    transactions,
-  );
-
-  const onDelete = (id: string) => {
-    removeTransaction(id);
-    addToast("Transaction removed!", "success");
-  };
-
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-col justify-between gap-4 overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-4 sm:flex-row">
@@ -57,16 +46,24 @@ export const TransactionTable = ({
             type="text"
             placeholder="Search transactions..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => onSearchChange(e.target.value)}
             className={`${baseStyles} w-full py-2 pr-4 pl-10 text-white sm:w-64`}
           />
         </div>
 
         <select
+          value={typeFilter}
+          onChange={(e) => onTypeChange(e.target.value)}
+          className={`${baseStyles} px-4 py-2 text-white`}
+        >
+          <option value="All">All Types</option>
+          <option value="Income">Income Only</option>
+          <option value="Expense">Expenses Only</option>
+        </select>
+
+        <select
           value={categoryFilter}
-          onChange={(e) =>
-            setCategoryFilter(e.target.value as TransactionFormCategory)
-          }
+          onChange={(e) => onCategoryChange(e.target.value)}
           className={`${baseStyles} px-4 py-2 text-white focus:outline-none`}
         >
           {transactionFormCategories.map((t) => (
@@ -97,7 +94,7 @@ export const TransactionTable = ({
             </tr>
           </thead>
           <tbody className="block divide-slate-800 md:table-row-group md:divide-y">
-            {filteredTransactions.map((t) => (
+            {transactions.map((t) => (
               <tr
                 key={t.id}
                 className="mb-4 block rounded-lg border border-slate-700 bg-slate-800 p-2 shadow-lg shadow-black/50 transition hover:bg-slate-600 md:table-row"
@@ -136,7 +133,7 @@ export const TransactionTable = ({
             ))}
           </tbody>
         </table>
-        {filteredTransactions.length === 0 && (
+        {transactions.length === 0 && (
           <div className="py-12 text-center text-slate-500">
             No Transactions found matching your filters.
           </div>

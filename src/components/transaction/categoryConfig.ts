@@ -1,5 +1,4 @@
 import {
-  BanknoteArrowDown,
   Car,
   ChevronsLeftRight,
   Coins,
@@ -34,7 +33,6 @@ export const expenseCategories = (
 
 export const metaCategoriesConfig = {
   "All Categories": { icon: ListChevronsUpDown, color: "#64748b" },
-  Expenses: { icon: BanknoteArrowDown, color: "#ef4444" },
 } satisfies Record<string, CategoryConfig>;
 
 export const transactionFormCategories = [
