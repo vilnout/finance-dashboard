@@ -1,4 +1,4 @@
-import type { Currency, Transaction, TransactionFormCategory } from "../types";
+import type { Currency, Transaction } from "../types";
 
 interface AccTransactions {
   [name: string]: {
@@ -64,8 +64,11 @@ export const groupTransactionsByMonth = (transactions: Transaction[]) => {
 
 export const filterTransactions = (
   searchTerm: string,
-  categoryFilter: TransactionFormCategory,
+  typeFilter: string,
+  categoryFilter: string,
   transactions: Transaction[],
+  urlMonth?: string,
+  urlYear?: string,
 ) => {
   return transactions
     .filter((tnx) => {
@@ -73,11 +76,30 @@ export const filterTransactions = (
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
 
+      let matchesType: boolean;
+
+      if (typeFilter === "All") {
+        matchesType = true;
+      } else if (typeFilter === "Income") {
+        matchesType = tnx.amount > 0;
+      } else if (typeFilter === "Expense") {
+        matchesType = tnx.amount < 0;
+      } else {
+        matchesType = false;
+      }
+
       const matchesCategory =
-        tnx.category === categoryFilter ||
-        categoryFilter === "All Categories" ||
-        (categoryFilter === "Expenses" && tnx.amount < 0);
-      return matchesSearch && matchesCategory;
+        tnx.category === categoryFilter || categoryFilter === "All Categories";
+
+      let matchesDate = true;
+      if (urlMonth && urlYear) {
+        const txDate = new Date(tnx.date);
+        matchesDate =
+          txDate.getMonth().toString() === urlMonth &&
+          txDate.getFullYear().toString() === urlYear;
+      }
+
+      return matchesSearch && matchesCategory && matchesType && matchesDate;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
