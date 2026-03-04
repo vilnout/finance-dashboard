@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { useToastStore } from "../../store/useToastStore";
 import { type Budget, type BudgetProgress, type Currency } from "../../types";
@@ -8,12 +9,19 @@ import { BudgetEditMenu } from "./BudgetEditMenu";
 interface BudgetCardProps {
   budget: BudgetProgress;
   currency: Currency;
+  currentMonth: Date;
   onEdit: (budget: Budget) => void;
 }
 
-export const BudgetCard = ({ budget, currency, onEdit }: BudgetCardProps) => {
+export const BudgetCard = ({
+  budget,
+  currency,
+  currentMonth,
+  onEdit,
+}: BudgetCardProps) => {
   const deleteBudget = useFinanceStore((state) => state.deleteBudget);
   const addToast = useToastStore((state) => state.addToast);
+  const navitate = useNavigate();
 
   const Icon = categoryConfig[budget.category].icon;
   const iconColor = categoryConfig[budget.category].color;
@@ -25,13 +33,18 @@ export const BudgetCard = ({ budget, currency, onEdit }: BudgetCardProps) => {
     barColor = "bg-amber-500";
   }
 
+  const filterParams = `/transactions?category=${budget.category}&type=Expense&month=${currentMonth.getMonth()}&year=${currentMonth.getFullYear()}`;
+
   const onDelete = (id: string) => {
     deleteBudget(id);
     addToast("Budget Deleted!", "success");
   };
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 transition-colors hover:border-slate-700">
+    <div
+      onClick={() => navitate(filterParams)}
+      className="cursor-pointer rounded-xl border border-slate-800 bg-slate-900 p-6 transition-colors hover:border-slate-700"
+    >
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div

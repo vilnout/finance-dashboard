@@ -84,6 +84,7 @@ export const Budgets = ({ isLoading }: BudgetsProps) => {
                 budget={budget}
                 onEdit={handleEdit}
                 currency={currency}
+                currentMonth={currentMonth}
               />
             ))}
           </div>
