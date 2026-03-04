@@ -29,7 +29,10 @@ export const BudgetEditMenu = ({
   return (
     <div className="relative" ref={menuRef}>
       <button
-        onClick={() => setOpen(!open)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(!open);
+        }}
         className="p-1 text-slate-500 hover:text-slate-200"
       >
         <MoreVertical size={20} />
@@ -38,13 +41,19 @@ export const BudgetEditMenu = ({
       {open && (
         <div className="absolute right-0 z-50 mt-2 flex w-30 flex-col items-center justify-center rounded-md border border-slate-700 bg-slate-800 shadow-lg">
           <button
-            onClick={() => onEdit(budget)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(budget);
+            }}
             className="flex w-full items-center gap-2 px-4 py-2 text-slate-500 hover:text-blue-500"
           >
             <Pencil size={16} /> Edit
           </button>
           <button
-            onClick={() => onDelete(budget.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(budget.id);
+            }}
             className="flex w-full items-center gap-2 px-4 py-2 text-slate-500 hover:text-rose-500"
           >
             <Trash2 size={16} /> Delete

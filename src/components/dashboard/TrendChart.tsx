@@ -3,13 +3,17 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import type { Currency } from "../../types";
-import type { GroupedTransactions } from "../../utils/transactions";
+import {
+  formatMoney,
+  type GroupedTransactions,
+} from "../../utils/transactions";
 import { currencyConfig } from "../transaction/currencyConfig";
 
 type TrendChartProps = {
@@ -22,12 +26,17 @@ export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
   const incomeColor = "#22c55e";
   const expenseColor = "#dc2626";
   const currencySymbol = currencyConfig[currency].symbol;
+  const itemSorter = (item) => {
+    if (item.dataKey === "income") return -1;
+    if (item.dataKey === "expenses") return 1;
+    return 0;
+  };
 
   const chartData: GroupedTransactions[] = hasData
     ? data
     : [{ date: "", balance: 0, income: 0, expenses: 0 }];
   return (
-    <div className="h-[400px] rounded-lg border border-slate-800">
+    <div className="relative h-[400px] rounded-lg border border-slate-800">
       <h3 className="p-3 text-lg font-semibold">Cash Flow Trend</h3>
       <ResponsiveContainer width="99%" height="80%">
         <AreaChart data={chartData}>
@@ -68,6 +77,7 @@ export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
             }}
             formatter={(value, name) => {
               let color: string;
+              let fValue;
               if (name === "income") {
                 color = incomeColor;
               } else if (name == "expenses") {
@@ -75,9 +85,27 @@ export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
               } else {
                 color = "#3b82f6";
               }
-              return [value, name, color];
+              if (typeof value === "number") {
+                fValue = formatMoney(value, currency);
+              } else {
+                fValue = value;
+              }
+              return [fValue, name, color];
             }}
+            itemSorter={itemSorter}
           />
+          <Legend
+            verticalAlign="top"
+            align="center"
+            height={36}
+            iconType="circle"
+            wrapperStyle={{
+              fontSize: "12px",
+              color: "#94a3b8",
+            }}
+            itemSorter={itemSorter}
+          />
+
           {hasData ? (
             <>
               <Area

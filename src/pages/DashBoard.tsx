@@ -5,6 +5,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { CategoryChart } from "../components/dashboard/CategoryChart";
 import { DashboardSkeleton } from "../components/dashboard/DashboardSkeleton";
 import { RecentTransactions } from "../components/dashboard/RecentTransactions";
@@ -25,6 +26,7 @@ export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
   const transactions = useFinanceStore((state) => state.transactions);
   const currency = useFinanceStore((state) => state.currency);
   const data = aggregrateTransactions(transactions);
+  const navigate = useNavigate();
   const { totalBalance, monthlyExpenses, monthlyIncome, savingsRate } =
     useMemo(() => {
       return getMonthlyStats(transactions);
@@ -55,6 +57,7 @@ export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
               currency={currency}
               icon={ArrowUpCircle}
               color="text-emerald-500"
+              onClick={() => navigate("/transactions?type=Income")}
             />
             <StatCard
               title="Expenses"
@@ -62,6 +65,7 @@ export const DashBoard = ({ setIsModalOpen, isLoading }: DashBoardProps) => {
               currency={currency}
               icon={ArrowDownCircle}
               color="text-rose-500"
+              onClick={() => navigate("/transactions?type=Expense")}
             />
             <StatCard
               title="Savings Rate"
