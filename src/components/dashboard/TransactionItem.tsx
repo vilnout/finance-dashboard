@@ -1,5 +1,5 @@
+import TimeAgo from "react-timeago";
 import type { Currency, Transaction } from "../../types";
-import { timeAgo } from "../../utils/transactionItems";
 import { formatMoney } from "../../utils/transactions";
 import { categoryConfig } from "../transaction/categoryConfig";
 
@@ -35,7 +35,7 @@ export const TransactionItem = ({
             className="text-xs text-slate-400"
             title={new Date(transaction.date).toLocaleDateString()}
           >
-            {timeAgo(transaction.date)}
+            <TimeAgo date={transaction.date} />
           </span>
         </div>
       </div>

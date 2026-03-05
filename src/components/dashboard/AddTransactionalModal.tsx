@@ -5,6 +5,7 @@ import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import { useToastStore } from "../../store/useToastStore";
+import { localDateTimeStr } from "../../utils/time";
 import { expenseCategories } from "../transaction/categoryConfig";
 import { Input, baseStyles } from "../ui/Input";
 
@@ -20,7 +21,7 @@ const transactionSchema = z.object({
     "Income",
     "Other",
   ]),
-  date: z.string(),
+  dateTime: z.string(),
   type: z.enum(["income", "expense"]),
 });
 
@@ -49,7 +50,7 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
     defaultValues: {
       type: "expense",
       category: expenseCategories[0],
-      date: new Date().toISOString().split("T")[0],
+      dateTime: localDateTimeStr(),
     },
   });
 
@@ -65,6 +66,16 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
     }
   }, [selectedType, setValue]);
 
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        type: "expense",
+        category: expenseCategories[0],
+        dateTime: localDateTimeStr(),
+      });
+    }
+  }, [isOpen, reset]);
+
   const onSubmit = (data: TransactionFormData) => {
     const finalAmount =
       data.type === "expense" ? -Math.abs(data.amount) : Math.abs(data.amount);
@@ -73,7 +84,7 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
       id: crypto.randomUUID(),
       description: data.description,
       amount: finalAmount,
-      date: new Date(data.date),
+      date: new Date(data.dateTime),
       category: data.category,
     });
 
@@ -90,7 +101,7 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="relative w-full max-w-md rounded-xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
+      <div className="relative w-full max-w-lg rounded-xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 text-slate-400 hover:text-white"
@@ -141,7 +152,7 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
               error={errors.description?.message}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-[40%_60%]">
             <div>
               <label className={labelClass}>Category</label>
               <select
@@ -156,9 +167,13 @@ export const AddTransactionModal = ({ isOpen, onClose }: ModalProps) => {
                 ))}
               </select>
             </div>
-            <div>
-              <label className={labelClass}>Date</label>
-              <Input type="date" {...register("date")} />
+            <div className="dark:[color-scheme-dark]">
+              <label className={labelClass}>Date & Time</label>
+              <Input
+                className="dark:scheme-dark"
+                type="datetime-local"
+                {...register("dateTime")}
+              />
             </div>
           </div>
           <button
