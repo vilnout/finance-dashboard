@@ -71,7 +71,7 @@ export const Budgets = ({ isLoading }: BudgetsProps) => {
           </div>
           <button
             onClick={handleCreate}
-            className="mt-2 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2 text-white transition-colors hover:bg-blue-500"
+            className="mt-2 flex cursor-pointer items-center justify-center rounded-lg bg-blue-600 px-5 py-2 text-white transition-colors hover:bg-blue-500"
           >
             <Plus size={20} />
           </button>

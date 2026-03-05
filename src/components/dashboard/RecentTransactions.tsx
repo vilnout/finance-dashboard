@@ -1,3 +1,4 @@
+import { LucideCircleArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../routes/routes";
 import type { Currency, Transaction } from "../../types";
@@ -23,10 +24,10 @@ export const RecentTransactions = ({
           Recent Activity
         </h3>
         <Link
-          className="text-sm text-blue-500 hover:text-blue-400"
+          className="flex items-center gap-1 text-sm text-blue-500 transition-colors hover:text-blue-400 hover:underline"
           to={ROUTES.TRANSACTIONS}
         >
-          View all
+          View all <LucideCircleArrowRight size={16} />
         </Link>
       </div>
       {sortedTransactions.length === 0 ? (
