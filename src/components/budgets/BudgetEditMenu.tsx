@@ -33,7 +33,7 @@ export const BudgetEditMenu = ({
           e.stopPropagation();
           setOpen(!open);
         }}
-        className="p-1 text-slate-500 hover:text-slate-200"
+        className="cursor-pointer p-1 text-slate-500 hover:text-slate-200"
       >
         <MoreVertical size={20} />
       </button>
@@ -45,7 +45,7 @@ export const BudgetEditMenu = ({
               e.stopPropagation();
               onEdit(budget);
             }}
-            className="flex w-full items-center gap-2 px-4 py-2 text-slate-500 hover:text-blue-500"
+            className="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-slate-500 hover:text-blue-500"
           >
             <Pencil size={16} /> Edit
           </button>
@@ -54,7 +54,7 @@ export const BudgetEditMenu = ({
               e.stopPropagation();
               onDelete(budget.id);
             }}
-            className="flex w-full items-center gap-2 px-4 py-2 text-slate-500 hover:text-rose-500"
+            className="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-slate-500 hover:text-rose-500"
           >
             <Trash2 size={16} /> Delete
           </button>
