@@ -55,11 +55,11 @@ export const BudgetCard = ({
           </div>
           <h3 className="font-semibold text-slate-100">{budget.category}</h3>
         </div>
-        <div className="flex flex-row-reverse items-center gap-2">
-          <BudgetEditMenu budget={budget} onEdit={onEdit} onDelete={onDelete} />
+        <div className="flex flex-row items-center gap-2">
           <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-xs font-medium text-slate-400">
             {formatMoney(budget.limit, currency)} limit
           </span>
+          <BudgetEditMenu budget={budget} onEdit={onEdit} onDelete={onDelete} />
         </div>
       </div>
 
