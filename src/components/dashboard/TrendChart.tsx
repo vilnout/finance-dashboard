@@ -26,11 +26,6 @@ export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
   const incomeColor = "#22c55e";
   const expenseColor = "#dc2626";
   const currencySymbol = currencyConfig[currency].symbol;
-  const itemSorter = (item) => {
-    if (item.dataKey === "income") return -1;
-    if (item.dataKey === "expenses") return 1;
-    return 0;
-  };
 
   const chartData: GroupedTransactions[] = hasData
     ? data
@@ -92,7 +87,11 @@ export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
               }
               return [fValue, name, color];
             }}
-            itemSorter={itemSorter}
+            itemSorter={(item) => {
+              if (item.dataKey === "income") return -1;
+              if (item.dataKey === "expenses") return 1;
+              return 0;
+            }}
           />
           <Legend
             verticalAlign="top"
@@ -103,7 +102,11 @@ export const TrendChart = memo(({ data, currency }: TrendChartProps) => {
               fontSize: "12px",
               color: "#94a3b8",
             }}
-            itemSorter={itemSorter}
+            itemSorter={(item) => {
+              if (item.dataKey === "income") return -1;
+              if (item.dataKey === "expenses") return 1;
+              return 0;
+            }}
           />
 
           {hasData ? (
