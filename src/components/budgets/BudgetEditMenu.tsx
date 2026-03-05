@@ -27,7 +27,7 @@ export const BudgetEditMenu = ({
   }, []);
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="relative rounded-lg hover:bg-slate-800" ref={menuRef}>
       <button
         onClick={(e) => {
           e.stopPropagation();
