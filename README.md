@@ -43,6 +43,10 @@ This is a frontend web application for tracking personal finances, budgets, and 
 3. Run `npm run dev`
 4. Go to `http://localhost:5173`
 
+## Note
+
+The delays in loading are simulated using useEffect and a timer to show loading skeletons and simulate transitions to actual content while fetching data over a network.
+
 ## Future Development
 
 Currently this is an SPA running entirely on the client side with mock data generated on each refresh. It needs a backend api to handle real user authentication, session management and persistant database storage.
